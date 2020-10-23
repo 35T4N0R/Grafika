@@ -16,7 +16,7 @@ namespace Grafika
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Content = new FirstPage();
+            MainFrame.Content = new SecondPage();
         }
         
     }

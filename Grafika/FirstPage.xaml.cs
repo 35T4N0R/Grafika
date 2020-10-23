@@ -17,6 +17,7 @@ namespace Grafika
     /// </summary>
     public partial class FirstPage : Page
     {
+        MainWindow mw = (MainWindow)Application.Current.MainWindow;
         public enum Shapes
         {
             Pencil, Line, Circle, Rectangle, Cursor
@@ -587,6 +588,11 @@ namespace Grafika
                     break;
             }
             return false;
+        }
+
+        private void NextPage_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new SecondPage();
         }
     }
 }

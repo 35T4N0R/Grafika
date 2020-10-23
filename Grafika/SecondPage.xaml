@@ -1,0 +1,29 @@
+﻿<Page x:Class="Grafika.SecondPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Grafika"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1400"
+      Title="SecondPage">
+
+    <DockPanel>
+        <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
+            <Button Name="LoadImage" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80" Click="LoadImage_Click"/>
+            <Button Name="SaveImage" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80" Click="SaveImage_Click"/>
+        </ToolBar>
+
+        <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
+            <StackPanel Name="inputs">
+
+            </StackPanel>
+        </Border>
+
+        <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1">
+            <Image Name="Image"></Image>
+        </Border>
+
+
+    </DockPanel>
+</Page>
