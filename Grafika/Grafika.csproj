@@ -58,11 +58,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JsonObject.cs" />
     <Compile Include="Shapes\myCircle.cs" />
     <Compile Include="Shapes\myLine.cs" />
     <Compile Include="Shapes\myPen.cs" />
     <Compile Include="Shapes\myRectangle.cs" />
+    <Page Include="FirstPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

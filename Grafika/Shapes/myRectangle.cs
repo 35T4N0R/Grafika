@@ -12,6 +12,7 @@ namespace Grafika.Shapes
     {
         public Rectangle Rectangle { get; private set; }
         MainWindow mw = (MainWindow)Application.Current.MainWindow;
+        FirstPage fp = (((MainWindow)Application.Current.MainWindow).Content as Frame).Content as FirstPage;
 
         public myRectangle(Point location)
         {
@@ -74,26 +75,26 @@ namespace Grafika.Shapes
 
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (mw.currentShape == MainWindow.Shapes.Cursor)
+            if (fp.currentShape == FirstPage.Shapes.Cursor)
             {
 
-                mw.MouseHitType = mw.SetHitType(Rectangle, Mouse.GetPosition(mw.Canvas));
-                mw.SetMouseCursor();
-                if (mw.MouseHitType == MainWindow.HitType.None) return;
+                fp.MouseHitType = fp.SetHitType(Rectangle, Mouse.GetPosition(fp.Canvas));
+                fp.SetMouseCursor();
+                if (fp.MouseHitType == FirstPage.HitType.None) return;
 
-                lastPoint = e.GetPosition(mw.Canvas);
-                mw.DragInProgress = true;
+                lastPoint = e.GetPosition(fp.Canvas);
+                fp.DragInProgress = true;
 
-                mw.clearInputsAndNames();
-                mw.SetInputs(MainWindow.Shapes.Rectangle);
-                var actionButton = ((Button)mw.inputs.FindName("actionButton"));
+                fp.clearInputsAndNames();
+                fp.SetInputs(FirstPage.Shapes.Rectangle);
+                var actionButton = ((Button)fp.inputs.FindName("actionButton"));
                 actionButton.Content = "Modyfikuj";
-                actionButton.Click -= mw.rysujButton_Click;
+                actionButton.Click -= fp.rysujButton_Click;
                 actionButton.Click += modifyRectangle;
-                ((TextBox)mw.inputs.FindName("x1")).Text = Convert.ToString(Canvas.GetLeft(Rectangle));
-                ((TextBox)mw.inputs.FindName("y1")).Text = Convert.ToString(Canvas.GetTop(Rectangle));
-                ((TextBox)mw.inputs.FindName("x2")).Text = Convert.ToString(Canvas.GetLeft(Rectangle) + Rectangle.Width);
-                ((TextBox)mw.inputs.FindName("y2")).Text = Convert.ToString(Canvas.GetTop(Rectangle) + Rectangle.Height);
+                ((TextBox)fp.inputs.FindName("x1")).Text = Convert.ToString(Canvas.GetLeft(Rectangle));
+                ((TextBox)fp.inputs.FindName("y1")).Text = Convert.ToString(Canvas.GetTop(Rectangle));
+                ((TextBox)fp.inputs.FindName("x2")).Text = Convert.ToString(Canvas.GetLeft(Rectangle) + Rectangle.Width);
+                ((TextBox)fp.inputs.FindName("y2")).Text = Convert.ToString(Canvas.GetTop(Rectangle) + Rectangle.Height);
 
                 //drag = true;
                 //startPt = e.GetPosition(mw.Canvas);
@@ -106,7 +107,7 @@ namespace Grafika.Shapes
 
         private void Rectangle_MouseMove(object sender, MouseEventArgs e)
         {
-            if(mw.currentShape == MainWindow.Shapes.Cursor)
+            if(fp.currentShape == FirstPage.Shapes.Cursor)
             {
                 try
                 {
@@ -129,12 +130,12 @@ namespace Grafika.Shapes
 
                     //}
 
-                    if (mw.DragInProgress)
+                    if (fp.DragInProgress)
                     {
                         
-                        Point point = Mouse.GetPosition(mw.Canvas);
+                        Point point = Mouse.GetPosition(fp.Canvas);
 
-                        if (point.Y > mw.Canvas.ActualHeight || point.X > mw.Canvas.ActualWidth || point.Y < 0 || point.X < 0)
+                        if (point.Y > fp.Canvas.ActualHeight || point.X > fp.Canvas.ActualWidth || point.Y < 0 || point.X < 0)
                         {
                             return;
                         }
@@ -147,43 +148,43 @@ namespace Grafika.Shapes
                         double recWidth = Rectangle.Width;
                         double recHeight = Rectangle.Height;
 
-                        switch (mw.MouseHitType)
+                        switch (fp.MouseHitType)
                         {
-                            case MainWindow.HitType.Body:
+                            case FirstPage.HitType.Body:
                                 recX += offset_x;
                                 recY += offset_y;
                                 break;
-                            case MainWindow.HitType.UL:
+                            case FirstPage.HitType.UL:
                                 recX += offset_x;
                                 recY += offset_y;
                                 recWidth -= offset_x;
                                 recHeight -= offset_y;
                                 break;
-                            case MainWindow.HitType.UR:
+                            case FirstPage.HitType.UR:
                                 recY += offset_y;
                                 recWidth += offset_x;
                                 recHeight -= offset_y;
                                 break;
-                            case MainWindow.HitType.LR:
+                            case FirstPage.HitType.LR:
                                 recWidth += offset_x;
                                 recHeight += offset_y;
                                 break;
-                            case MainWindow.HitType.LL:
+                            case FirstPage.HitType.LL:
                                 recX += offset_x;
                                 recWidth -= offset_x;
                                 recHeight += offset_y;
                                 break;
-                            case MainWindow.HitType.L:
+                            case FirstPage.HitType.L:
                                 recX += offset_x;
                                 recWidth -= offset_x;
                                 break;
-                            case MainWindow.HitType.R:
+                            case FirstPage.HitType.R:
                                 recWidth += offset_x;
                                 break;
-                            case MainWindow.HitType.B:
+                            case FirstPage.HitType.B:
                                 recHeight += offset_y;
                                 break;
-                            case MainWindow.HitType.T:
+                            case FirstPage.HitType.T:
                                 recY += offset_y;
                                 recHeight -= offset_y;
                                 break;
@@ -200,15 +201,15 @@ namespace Grafika.Shapes
                             lastPoint = point;
                         }
 
-                        ((TextBox)mw.inputs.FindName("x1")).Text = Convert.ToString(Canvas.GetLeft(Rectangle));
-                        ((TextBox)mw.inputs.FindName("y1")).Text = Convert.ToString(Canvas.GetTop(Rectangle));
-                        ((TextBox)mw.inputs.FindName("x2")).Text = Convert.ToString(Canvas.GetLeft(Rectangle) + Rectangle.Width);
-                        ((TextBox)mw.inputs.FindName("y2")).Text = Convert.ToString(Canvas.GetTop(Rectangle) + Rectangle.Height);
+                        ((TextBox)fp.inputs.FindName("x1")).Text = Convert.ToString(Canvas.GetLeft(Rectangle));
+                        ((TextBox)fp.inputs.FindName("y1")).Text = Convert.ToString(Canvas.GetTop(Rectangle));
+                        ((TextBox)fp.inputs.FindName("x2")).Text = Convert.ToString(Canvas.GetLeft(Rectangle) + Rectangle.Width);
+                        ((TextBox)fp.inputs.FindName("y2")).Text = Convert.ToString(Canvas.GetTop(Rectangle) + Rectangle.Height);
                     }
                     else
                     {
-                        mw.MouseHitType = mw.SetHitType(Rectangle, Mouse.GetPosition(mw.Canvas));
-                        mw.SetMouseCursor();
+                        fp.MouseHitType = fp.SetHitType(Rectangle, Mouse.GetPosition(fp.Canvas));
+                        fp.SetMouseCursor();
                     }
                 }
                 catch (Exception ex)
@@ -221,10 +222,10 @@ namespace Grafika.Shapes
 
         private void Rectangle_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if(mw.currentShape == MainWindow.Shapes.Cursor)
+            if(fp.currentShape == FirstPage.Shapes.Cursor)
             {
                 //drag = false;
-                mw.DragInProgress = false;
+                fp.DragInProgress = false;
                 Mouse.Capture(null);
             }
 
@@ -253,12 +254,12 @@ namespace Grafika.Shapes
 
         private void modifyRectangle(object sender, RoutedEventArgs e)
         {
-            if (!mw.checkInputs(MainWindow.Shapes.Rectangle))
+            if (!fp.checkInputs(FirstPage.Shapes.Rectangle))
             {
-                var x1 = Convert.ToDouble(((TextBox)mw.inputs.FindName("x1")).Text);
-                var y1 = Convert.ToDouble(((TextBox)mw.inputs.FindName("y1")).Text);
-                var x2 = Convert.ToDouble(((TextBox)mw.inputs.FindName("x2")).Text);
-                var y2 = Convert.ToDouble(((TextBox)mw.inputs.FindName("y2")).Text);
+                var x1 = Convert.ToDouble(((TextBox)fp.inputs.FindName("x1")).Text);
+                var y1 = Convert.ToDouble(((TextBox)fp.inputs.FindName("y1")).Text);
+                var x2 = Convert.ToDouble(((TextBox)fp.inputs.FindName("x2")).Text);
+                var y2 = Convert.ToDouble(((TextBox)fp.inputs.FindName("y2")).Text);
 
 
 

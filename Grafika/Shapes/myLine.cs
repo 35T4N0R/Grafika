@@ -48,33 +48,33 @@ namespace Grafika.Shapes
         private bool drag = false;
         private Point startPt;
         MainWindow mw = (MainWindow)Application.Current.MainWindow;
-
+        FirstPage fp = (((MainWindow)Application.Current.MainWindow).Content as Frame).Content as FirstPage;
 
 
         private void Line_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-            if (mw.currentShape == MainWindow.Shapes.Cursor)
+            if (fp.currentShape == FirstPage.Shapes.Cursor)
             {
-                mw.MouseHitType = mw.SetHitType(Line, Mouse.GetPosition(mw.Canvas));
-                mw.SetMouseCursor();
-                if (mw.MouseHitType == MainWindow.HitType.None) return;
+                fp.MouseHitType = fp.SetHitType(Line, Mouse.GetPosition(fp.Canvas));
+                fp.SetMouseCursor();
+                if (fp.MouseHitType == FirstPage.HitType.None) return;
 
-                mw.DragInProgress = true;
+                fp.DragInProgress = true;
 
-                mw.clearInputsAndNames();
-                mw.SetInputs(MainWindow.Shapes.Line);
-                var actionButton = ((Button)mw.inputs.FindName("actionButton"));
+                fp.clearInputsAndNames();
+                fp.SetInputs(FirstPage.Shapes.Line);
+                var actionButton = ((Button)fp.inputs.FindName("actionButton"));
                 actionButton.Content = "Modyfikuj";
-                actionButton.Click -= mw.rysujButton_Click;
+                actionButton.Click -= fp.rysujButton_Click;
                 actionButton.Click += modifyLine;
-                ((TextBox)mw.inputs.FindName("x1")).Text = Convert.ToString(Line.X1);
-                ((TextBox)mw.inputs.FindName("y1")).Text = Convert.ToString(Line.Y1);
-                ((TextBox)mw.inputs.FindName("x2")).Text = Convert.ToString(Line.X2);
-                ((TextBox)mw.inputs.FindName("y2")).Text = Convert.ToString(Line.Y2);
+                ((TextBox)fp.inputs.FindName("x1")).Text = Convert.ToString(Line.X1);
+                ((TextBox)fp.inputs.FindName("y1")).Text = Convert.ToString(Line.Y1);
+                ((TextBox)fp.inputs.FindName("x2")).Text = Convert.ToString(Line.X2);
+                ((TextBox)fp.inputs.FindName("y2")).Text = Convert.ToString(Line.Y2);
 
                 drag = true;
-                startPt = e.MouseDevice.GetPosition(mw.Canvas);
+                startPt = e.MouseDevice.GetPosition(fp.Canvas);
                 //wid = (int)Line.Width;
                 //hei = (int)Line.Height;
                 //lastLoc = new Point(Line.X1, Line.Y1);
@@ -84,34 +84,34 @@ namespace Grafika.Shapes
 
         private void Line_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mw.currentShape == MainWindow.Shapes.Cursor)
+            if (fp.currentShape == FirstPage.Shapes.Cursor)
             {
                 try
                 {
                     if (drag)
                     {
-                        Point newPos = e.MouseDevice.GetPosition(mw.Canvas);
+                        Point newPos = e.MouseDevice.GetPosition(fp.Canvas);
 
-                        if (newPos.Y >= mw.Canvas.ActualHeight || newPos.Y < 0 || newPos.X >= mw.Canvas.ActualWidth || newPos.X < 0)
+                        if (newPos.Y >= fp.Canvas.ActualHeight || newPos.Y < 0 || newPos.X >= fp.Canvas.ActualWidth || newPos.X < 0)
                         {
                             return;
                         }
 
-                        switch (mw.MouseHitType)
+                        switch (fp.MouseHitType)
                         {
-                            case MainWindow.HitType.Body:
+                            case FirstPage.HitType.Body:
                                 Line.X1 += newPos.X - startPt.X;
                                 Line.X2 += newPos.X - startPt.X;
                                 Line.Y1 += newPos.Y - startPt.Y;
                                 Line.Y2 += newPos.Y - startPt.Y;
                                 startPt = newPos;
                                 break;
-                            case MainWindow.HitType.T:
+                            case FirstPage.HitType.T:
                                 Line.X1 += newPos.X - startPt.X;
                                 Line.Y1 += newPos.Y - startPt.Y;
                                 startPt = newPos;
                                 break;
-                            case MainWindow.HitType.B:
+                            case FirstPage.HitType.B:
                                 Line.X2 += newPos.X - startPt.X;
                                 Line.Y2 += newPos.Y - startPt.Y;
                                 startPt = newPos;
@@ -122,16 +122,16 @@ namespace Grafika.Shapes
 
                         
 
-                        ((TextBox)mw.inputs.FindName("x1")).Text = Convert.ToString(Line.X1);
-                        ((TextBox)mw.inputs.FindName("y1")).Text = Convert.ToString(Line.Y1);
-                        ((TextBox)mw.inputs.FindName("x2")).Text = Convert.ToString(Line.X2);
-                        ((TextBox)mw.inputs.FindName("y2")).Text = Convert.ToString(Line.Y2);
+                        ((TextBox)fp.inputs.FindName("x1")).Text = Convert.ToString(Line.X1);
+                        ((TextBox)fp.inputs.FindName("y1")).Text = Convert.ToString(Line.Y1);
+                        ((TextBox)fp.inputs.FindName("x2")).Text = Convert.ToString(Line.X2);
+                        ((TextBox)fp.inputs.FindName("y2")).Text = Convert.ToString(Line.Y2);
 
                     }
                     else
                     {
-                        mw.MouseHitType = mw.SetHitType(Line, Mouse.GetPosition(mw.Canvas));
-                        mw.SetMouseCursor();
+                        fp.MouseHitType = fp.SetHitType(Line, Mouse.GetPosition(fp.Canvas));
+                        fp.SetMouseCursor();
                     }
                 }
                 catch (Exception ex)
@@ -144,7 +144,7 @@ namespace Grafika.Shapes
 
         private void Line_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (mw.currentShape == MainWindow.Shapes.Cursor)
+            if (fp.currentShape == FirstPage.Shapes.Cursor)
             {
                 drag = false;
                 Mouse.Capture(null);
@@ -159,12 +159,12 @@ namespace Grafika.Shapes
 
         private void modifyLine(object sender, RoutedEventArgs e)
         {
-            if (!mw.checkInputs(MainWindow.Shapes.Line))
+            if (!fp.checkInputs(FirstPage.Shapes.Line))
             {
-                var x1 = Convert.ToDouble(((TextBox)mw.inputs.FindName("x1")).Text);
-                var y1 = Convert.ToDouble(((TextBox)mw.inputs.FindName("y1")).Text);
-                var x2 = Convert.ToDouble(((TextBox)mw.inputs.FindName("x2")).Text);
-                var y2 = Convert.ToDouble(((TextBox)mw.inputs.FindName("y2")).Text);
+                var x1 = Convert.ToDouble(((TextBox)fp.inputs.FindName("x1")).Text);
+                var y1 = Convert.ToDouble(((TextBox)fp.inputs.FindName("y1")).Text);
+                var x2 = Convert.ToDouble(((TextBox)fp.inputs.FindName("x2")).Text);
+                var y2 = Convert.ToDouble(((TextBox)fp.inputs.FindName("y2")).Text);
 
                 Line.X1 = x1;
                 Line.Y1 = y1;
