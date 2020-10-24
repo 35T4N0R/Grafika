@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -15,6 +16,7 @@ namespace Grafika
     /// </summary>
     public partial class SecondPage : Page
     {
+        string currentImageExtension = string.Empty;
         public SecondPage()
         {
             InitializeComponent();
@@ -30,14 +32,72 @@ namespace Grafika
             //}
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                BitmapSource bitmap = CreateBitmapSourceFromGdiBitmap(new PNMReader().ReadImage(ofd.FileName));
-                Image.Source = bitmap;
+                string ext = Path.GetExtension(ofd.FileName);
+
+                if (ext.Equals(".ppm")) { 
+                    BitmapSource bitmap = CreateBitmapSourceFromGdiBitmap(new PNMReader().ReadImage(ofd.FileName));
+                    Image.Source = bitmap;
+                }
+                else
+                {
+                    ImageSource imageSource = new BitmapImage(new Uri(ofd.FileName));
+                    Image.Source = imageSource;
+                }
+                currentImageExtension = ext;
             }
         }
 
         private void SaveImage_Click(object sender, RoutedEventArgs e)
         {
 
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PNG (*.png)|*.png|JPEG (*.jpeg)|*.jpeg|All Files (*.*)|*.*";
+            sfd.DefaultExt = ".png";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (currentImageExtension.Equals(".ppm"))
+                {
+                    var encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Image.Source));
+                    using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                        encoder.Save(stream);
+                }else
+                {
+                    var compression = Convert.ToInt32(((System.Windows.Controls.TextBox)inputs.FindName("compresionLevelInput")).Text);
+
+                    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+
+                    encoder.QualityLevel = compression;
+                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Image.Source));
+                    using(FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                        encoder.Save(stream);
+                }
+            }
+        }
+
+        private static ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            var codecs = ImageCodecInfo.GetImageDecoders();
+            foreach (var codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
+
+        // Return an ImageCodecInfo object for this mime type.
+        private ImageCodecInfo GetEncoderInfo(string mime_type)
+        {
+            ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
+            for (int i = 0; i <= encoders.Length; i++)
+            {
+                if (encoders[i].MimeType == mime_type) return encoders[i];
+            }
+            return null;
         }
 
 
@@ -82,6 +142,7 @@ namespace Grafika
     {
         public Bitmap ReadImage(string path)
         {
+
             using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open)))
             {
                 if (reader.ReadChar() == 'P')
@@ -99,6 +160,7 @@ namespace Grafika
             }
 
             return null;
+
         }
 
         private Bitmap ReadTextPixelImage(BinaryReader reader)
