@@ -17,7 +17,7 @@
         <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
             <StackPanel Name="inputs">
                 <Label Name="compresionLevel" Margin="50 0 0 0">Stopień kompresji</Label>
-                <TextBox Name="compresionLevelInput" Width="200"></TextBox>
+                <TextBox Name="compresionLevelInput" Width="200" Text="100"></TextBox>
             </StackPanel>
         </Border>
 

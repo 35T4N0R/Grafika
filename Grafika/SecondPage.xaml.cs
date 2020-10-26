@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -24,13 +23,9 @@ namespace Grafika
 
         private void LoadImage_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+            OpenFileDialog ofd = new OpenFileDialog();
 
-            //if (ofd.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(ofd.FileName))
-            //{
-            //    Image.Source = CreateBitmapSourceFromGdiBitmap(new PNMReader().ReadImage(ofd.FileName));
-            //}
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string ext = Path.GetExtension(ofd.FileName);
 
@@ -56,50 +51,30 @@ namespace Grafika
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                if (currentImageExtension.Equals(".ppm"))
-                {
-                    var encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Image.Source));
-                    using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
-                        encoder.Save(stream);
-                }else
-                {
-                    var compression = Convert.ToInt32(((System.Windows.Controls.TextBox)inputs.FindName("compresionLevelInput")).Text);
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
 
-                    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-
-                    encoder.QualityLevel = compression;
-                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Image.Source));
-                    using(FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
-                        encoder.Save(stream);
+                if (Path.GetExtension(sfd.FileName).Equals(".jpeg"))
+                {
+                    if(String.IsNullOrEmpty(((System.Windows.Controls.TextBox)inputs.FindName("compresionLevelInput")).Text))
+                    {
+                        MessageBoxResult result = System.Windows.MessageBox.Show("Jeżeli chcesz zapisać jako .jpeg nie możesz zostawić stopnia kompresji pustego",
+                                          "Error",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                        return;
+                    }
+                    else
+                    {
+                        var compression = Convert.ToInt32(((System.Windows.Controls.TextBox)inputs.FindName("compresionLevelInput")).Text);
+                        encoder.QualityLevel = compression;
+                    }
                 }
+
+                encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Image.Source));
+                using(FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                    encoder.Save(stream);
             }
         }
-
-        private static ImageCodecInfo GetEncoder(ImageFormat format)
-        {
-            var codecs = ImageCodecInfo.GetImageDecoders();
-            foreach (var codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
-                {
-                    return codec;
-                }
-            }
-            return null;
-        }
-
-        // Return an ImageCodecInfo object for this mime type.
-        private ImageCodecInfo GetEncoderInfo(string mime_type)
-        {
-            ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
-            for (int i = 0; i <= encoders.Length; i++)
-            {
-                if (encoders[i].MimeType == mime_type) return encoders[i];
-            }
-            return null;
-        }
-
 
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)
         {
@@ -133,9 +108,6 @@ namespace Grafika
                 bitmap.UnlockBits(bitmapData);
             }
         }
-
-
-
     }
 
     class PNMReader
@@ -165,11 +137,9 @@ namespace Grafika
 
         private Bitmap ReadTextPixelImage(BinaryReader reader)
         {
-            char c;
-
-            int width = GetNextHeaderValue(reader);
-            int height = GetNextHeaderValue(reader);
-            int scale = GetNextHeaderValue(reader);
+            int width = GetNextTextValue(reader);
+            int height = GetNextTextValue(reader);
+            int scale = GetNextTextValue(reader);
 
             Bitmap bitmap = new Bitmap(width, height);
 
@@ -177,11 +147,11 @@ namespace Grafika
             {
                 for (int x = 0; x < width; x++)
                 {
-                    int red = GetNextTextValue(reader) * 255 / scale;
-                    int green = GetNextTextValue(reader) * 255 / scale;
-                    int blue = GetNextTextValue(reader) * 255 / scale;
+                    int r = GetNextTextValue(reader) * 255 / scale;
+                    int g = GetNextTextValue(reader) * 255 / scale;
+                    int b = GetNextTextValue(reader) * 255 / scale;
 
-                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(red, green, blue));
+                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(r, g, b));
                 }
             }
 
@@ -190,9 +160,9 @@ namespace Grafika
 
         private Bitmap ReadBinaryPixelImage(BinaryReader reader)
         {
-            int width = GetNextHeaderValue(reader);
-            int height = GetNextHeaderValue(reader);
-            int scale = GetNextHeaderValue(reader);
+            int width = GetNextTextValue(reader);
+            int height = GetNextTextValue(reader);
+            int scale = GetNextTextValue(reader);
 
             Bitmap bitmap = new Bitmap(width, height);
 
@@ -200,73 +170,20 @@ namespace Grafika
             {
                 for (int x = 0; x < width; x++)
                 {
-                    int red = reader.ReadByte() * 255 / scale;
-                    int green = reader.ReadByte() * 255 / scale;
-                    int blue = reader.ReadByte() * 255 / scale;
+                    int r = reader.ReadByte() * 255 / scale;
+                    int g = reader.ReadByte() * 255 / scale;
+                    int b = reader.ReadByte() * 255 / scale;
 
-                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(red, green, blue));
+                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(r, g, b));
                 }
             }
 
             return bitmap;
         }
-        private int GetNextHeaderValue(BinaryReader reader)
-        {
-            bool hasValue = false;
-            string value = string.Empty;
-            char c;
-            bool comment = false;
 
-            do
-            {
-                c = reader.ReadChar();
-                
-                if (c == '#')
-                {
-                    comment = true;
-                }
-
-                if (comment)
-                {
-                    if (c == '\n')
-                    {
-                        comment = false;
-                    }
-
-                    continue;
-                }
-
-                if (!hasValue)
-                {
-                    if ((c == '\n' || c == ' ' || c == '\t') && value.Length != 0)
-                    {
-                        hasValue = true;
-                    }
-                    else if (c >= '0' && c <= '9')
-                    {
-                        value += c;
-                    }
-                }
-
-            } while (!hasValue);
-
-            return int.Parse(value);
-        }
 
         private int GetNextTextValue(BinaryReader reader)
         {
-            //string value = string.Empty;
-            //char c = reader.ReadChar();
-
-            //do
-            //{
-            //    value += c;
-
-            //    c = reader.ReadChar();
-
-            //} while (!(c == '\n' || c == ' ' || c == '\t') || value.Length == 0);
-
-            //return int.Parse(value);
             bool hasValue = false;
             string value = string.Empty;
             char c;
@@ -306,44 +223,6 @@ namespace Grafika
             } while (!hasValue);
 
             return int.Parse(value);
-        }
-    }
-
-    public static class BinaryReaderExtension
-    {
-
-        public static String ReadLine(this BinaryReader reader)
-        {
-            var result = new StringBuilder();
-            bool foundEndOfLine = false;
-            char ch;
-            while (!foundEndOfLine)
-            {
-                try
-                {
-                    ch = reader.ReadChar();
-                }
-                catch (EndOfStreamException ex)
-                {
-                    if (result.Length == 0) return null;
-                    else break;
-                }
-
-                switch (ch)
-                {
-                    case '\r':
-                        if (reader.PeekChar() == '\n') reader.ReadChar();
-                        foundEndOfLine = true;
-                        break;
-                    case '\n':
-                        foundEndOfLine = true;
-                        break;
-                    default:
-                        result.Append(ch);
-                        break;
-                }
-            }
-            return result.ToString();
         }
     }
 }
