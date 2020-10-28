@@ -53,8 +53,8 @@ namespace Grafika
         {
             int parsedValue;
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "PNG (*.png)|*.png|JPEG (*.jpeg)|*.jpeg|All Files (*.*)|*.*";
-            sfd.DefaultExt = ".png";
+            sfd.Filter = "JPEG (*.jpeg)|*.jpeg|PNG (*.png)|*.png|All Files (*.*)|*.*";
+            sfd.DefaultExt = ".jpeg";
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
@@ -73,7 +73,7 @@ namespace Grafika
                     }
                     else if (!int.TryParse(compresionLevelInput.Text, out parsedValue) || !(Convert.ToInt32(compresionLevelInput.Text) > 0 && Convert.ToInt32(compresionLevelInput.Text) <= 100))
                     {
-                        MessageBoxResult result = System.Windows.MessageBox.Show("Stopień kompresji jest wartością liczbową od 1 do 100",
+                        MessageBoxResult result = System.Windows.MessageBox.Show("Stopień kompresji jest wartością całkowitą od 1 do 100",
                                           "Error",
                                           MessageBoxButton.OK,
                                           MessageBoxImage.Error);
