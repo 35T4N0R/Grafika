@@ -15,7 +15,6 @@ namespace Grafika
     /// </summary>
     public partial class SecondPage : Page
     {
-        string currentImageExtension = string.Empty;
         public SecondPage()
         {
             InitializeComponent();
@@ -29,22 +28,30 @@ namespace Grafika
             {
                 string ext = Path.GetExtension(ofd.FileName);
 
-                if (ext.Equals(".ppm")) { 
+                if (ext.Equals(".ppm")) {
                     BitmapSource bitmap = CreateBitmapSourceFromGdiBitmap(new PNMReader().ReadImage(ofd.FileName));
                     Image.Source = bitmap;
                 }
-                else
+                else if(ext.Equals(".jpeg") || ext.Equals(".jpg") || ext.Equals(".png"))
                 {
                     ImageSource imageSource = new BitmapImage(new Uri(ofd.FileName));
                     Image.Source = imageSource;
                 }
-                currentImageExtension = ext;
+                else
+                {
+                    MessageBoxResult result = System.Windows.MessageBox.Show("Obsługiwanymi formatami plików graficznych są: .ppm, .jpeg, .jpg, .png",
+                                             "Error",
+                                             MessageBoxButton.OK,
+                                             MessageBoxImage.Error);
+                    return;
+
+                }
             }
         }
 
         private void SaveImage_Click(object sender, RoutedEventArgs e)
         {
-
+            int parsedValue;
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "PNG (*.png)|*.png|JPEG (*.jpeg)|*.jpeg|All Files (*.*)|*.*";
             sfd.DefaultExt = ".png";
@@ -52,12 +59,21 @@ namespace Grafika
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                encoder.QualityLevel = 100;
 
                 if (Path.GetExtension(sfd.FileName).Equals(".jpeg"))
                 {
                     if(String.IsNullOrEmpty(((System.Windows.Controls.TextBox)inputs.FindName("compresionLevelInput")).Text))
                     {
                         MessageBoxResult result = System.Windows.MessageBox.Show("Jeżeli chcesz zapisać jako .jpeg nie możesz zostawić stopnia kompresji pustego",
+                                          "Error",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                        return;
+                    }
+                    else if (!int.TryParse(compresionLevelInput.Text, out parsedValue) || !(Convert.ToInt32(compresionLevelInput.Text) > 0 && Convert.ToInt32(compresionLevelInput.Text) <= 100))
+                    {
+                        MessageBoxResult result = System.Windows.MessageBox.Show("Stopień kompresji jest wartością liczbową od 1 do 100",
                                           "Error",
                                           MessageBoxButton.OK,
                                           MessageBoxImage.Error);
@@ -71,7 +87,7 @@ namespace Grafika
                 }
 
                 encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Image.Source));
-                using(FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
                     encoder.Save(stream);
             }
         }
@@ -151,7 +167,7 @@ namespace Grafika
                     int g = GetNextTextValue(reader) * 255 / scale;
                     int b = GetNextTextValue(reader) * 255 / scale;
 
-                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(r, g, b));
+                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(255, r, g, b));
                 }
             }
 
