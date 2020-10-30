@@ -138,11 +138,11 @@ namespace Grafika
                     char c = reader.ReadChar();
                     if (c == '3')
                     {
-                        return ReadTextPixelImage(reader);
+                        return ReadTextImage(reader);
                     }
                     else if (c == '6')
                     {
-                        return ReadBinaryPixelImage(reader);
+                        return ReadBinaryImage(reader);
                     }
                 }
             }
@@ -151,7 +151,7 @@ namespace Grafika
 
         }
 
-        private Bitmap ReadTextPixelImage(BinaryReader reader)
+        private Bitmap ReadTextImage(BinaryReader reader)
         {
             int width = GetNextTextValue(reader);
             int height = GetNextTextValue(reader);
@@ -174,7 +174,7 @@ namespace Grafika
             return bitmap;
         }
 
-        private Bitmap ReadBinaryPixelImage(BinaryReader reader)
+        private Bitmap ReadBinaryImage(BinaryReader reader)
         {
             int width = GetNextTextValue(reader);
             int height = GetNextTextValue(reader);

@@ -1,0 +1,56 @@
+﻿<Page x:Class="Grafika.ThirdPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Grafika"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1400"
+      Title="ThirdPage">
+
+    <DockPanel>
+        <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
+            <Button Name="LoadCanvas" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>
+            <Button Name="SaveCanvas" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80"/>
+           
+        </ToolBar>
+
+        <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
+            <StackPanel Name="inputs" Orientation="Vertical">
+                <Label Width="200">R</Label>
+                <Slider Name="RSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="RSlider_ValueChanged" Thumb.DragStarted="RSlider_DragStarted"  Thumb.DragCompleted="RSlider_DragCompleted"></Slider>
+                <TextBox x:Name="RTextBox" Width="30" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=RSlider, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Width="200">G</Label>
+                <Slider Name="GSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="GSlider_ValueChanged" Thumb.DragStarted="GSlider_DragStarted" Thumb.DragCompleted="GSlider_DragCompleted"></Slider>
+                <TextBox Name="GTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=GSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label Width="200">B</Label>
+                <Slider Name="BSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="BSlider_ValueChanged" Thumb.DragStarted="BSlider_DragStarted" Thumb.DragCompleted="BSlider_DragCompleted"></Slider>
+                <TextBox Name="BTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=BSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                <Rectangle Width="50" Height="50" Name="RGBRec" Stroke="Black" Fill="Black"></Rectangle>
+
+                <Label Width="200">C</Label>
+                <Slider Name="CSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="CSlider_ValueChanged" Thumb.DragStarted="CSlider_DragStarted" Thumb.DragCompleted="CSlider_DragCompleted"></Slider>
+                <TextBox x:Name="CTextBox" Width="30" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=CSlider, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Width="200">M</Label>
+                <Slider Name="MSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="MSlider_ValueChanged" Thumb.DragStarted="MSlider_DragStarted" Thumb.DragCompleted="MSlider_DragCompleted"></Slider>
+                <TextBox Name="MTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=MSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label Width="200">Y</Label>
+                <Slider Name="YSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="YSlider_ValueChanged" Thumb.DragStarted="YSlider_DragStarted" Thumb.DragCompleted="YSlider_DragCompleted"></Slider>
+                <TextBox Name="YTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=YSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                <Label Width="200">K</Label>
+                <Slider Name="KSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="KSlider_ValueChanged" Thumb.DragStarted="KSlider_DragStarted" Thumb.DragCompleted="KSlider_DragCompleted"></Slider>
+                <TextBox x:Name="KTextBox" Width="30" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=KSlider, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Rectangle Width="50" Height="50" Name="CMYKRec" Stroke="Black" Fill="Black"></Rectangle>
+            </StackPanel>
+        </Border>
+
+        <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1">
+            <Canvas Name="Canvas"  Background="AntiqueWhite" ClipToBounds="True">
+
+            </Canvas>
+        </Border>
+
+
+    </DockPanel>
+</Page>
