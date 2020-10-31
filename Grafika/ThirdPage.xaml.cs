@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 
 namespace Grafika
 {
@@ -406,5 +407,43 @@ namespace Grafika
             cmykTyping = false;
         }
         #endregion
+
+
+        Point dragStart;
+        Point dragTotal;
+        double Rotation;
+        Vector3D AxisVector;
+        bool dragging;
+        private void viewport3D1_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            dragging = true;
+            dragStart = e.GetPosition(viewport3D1);
+            dragStart.Offset(-this.dragTotal.X, this.dragTotal.Y);
+        }
+
+        private void viewport3D1_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            dragging = false;
+
+            var dragEnd = e.GetPosition(this.viewport3D1);
+            this.dragTotal.X = dragEnd.X - this.dragStart.X;
+            this.dragTotal.Y = dragEnd.Y - this.dragStart.Y;
+        }
+
+        private void viewport3D1_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (dragging)
+            {
+
+                var pos = e.GetPosition(this.viewport3D1);
+
+                var x = pos.X - this.dragStart.X;
+                var y = pos.Y - this.dragStart.Y;
+
+                rot.Angle = Math.Sqrt(x * x + y * y);
+
+                rot.Axis = new Vector3D(x, y, 0);
+            }
+        }
     }
 }
