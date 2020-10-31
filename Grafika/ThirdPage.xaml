@@ -67,24 +67,24 @@
                             </DirectionalLight>
                         </ModelVisual3D.Content>
                     </ModelVisual3D>
-                    <ModelVisual3D>
+                    <!--<ModelVisual3D>
                         <ModelVisual3D.Content>
                             <DirectionalLight x:Name="asdf" Direction="1, 0, 0">
                             </DirectionalLight>
                         </ModelVisual3D.Content>
-                    </ModelVisual3D>
+                    </ModelVisual3D>-->
                     <ModelVisual3D>
                         <ModelVisual3D.Content>
                             <DirectionalLight x:Name="dtyu" Direction="0,0,1">
                             </DirectionalLight>
                         </ModelVisual3D.Content>
                     </ModelVisual3D>
-                    <ModelVisual3D>
+                    <!--<ModelVisual3D>
                         <ModelVisual3D.Content>
                             <DirectionalLight x:Name="srh" Direction="0,1,0">
                             </DirectionalLight>
                         </ModelVisual3D.Content>
-                    </ModelVisual3D>
+                    </ModelVisual3D>-->
                     <ModelVisual3D>
                         <ModelVisual3D.Content>
                             <GeometryModel3D>
