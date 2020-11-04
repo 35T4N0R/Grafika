@@ -10,44 +10,58 @@
 
     <DockPanel>
         <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
-            <Button Name="LoadCanvas" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>
-            <Button Name="SaveCanvas" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80"/>
-           
+            <!--<Button Name="LoadCanvas" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>-->
+            <!--<Button Name="SaveCanvas" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80"/>-->
+
         </ToolBar>
 
         <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
             <StackPanel Name="inputs" Orientation="Vertical">
                 <Label Width="200">R</Label>
-                <Slider Name="RSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="RSlider_ValueChanged" Thumb.DragStarted="RSlider_DragStarted"  Thumb.DragCompleted="RSlider_DragCompleted"></Slider>
-                <TextBox x:Name="RTextBox" Width="30" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=RSlider, UpdateSourceTrigger=PropertyChanged}" TextChanged="RTextBox_TextChanged" GotFocus="RTextBox_GotFocus" LostFocus="RTextBox_LostFocus"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="RSlider" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="RSlider_ValueChanged" Thumb.DragStarted="RSlider_DragStarted"  Thumb.DragCompleted="RSlider_DragCompleted" HorizontalAlignment="Left" Width="200"/>
+                    <TextBox x:Name="RTextBox" Width="40" Height="20" Text="{Binding Value, ElementName=RSlider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="RTextBox_TextChanged" GotFocus="RTextBox_GotFocus" LostFocus="RTextBox_LostFocus"/>
+                </StackPanel>
                 <Label Width="200">G</Label>
-                <Slider Name="GSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="GSlider_ValueChanged" Thumb.DragStarted="GSlider_DragStarted" Thumb.DragCompleted="GSlider_DragCompleted"></Slider>
-                <TextBox Name="GTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=GSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="GTextBox_TextChanged" GotFocus="GTextBox_GotFocus" LostFocus="GTextBox_LostFocus"></TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="GSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="GSlider_ValueChanged" Thumb.DragStarted="GSlider_DragStarted" Thumb.DragCompleted="GSlider_DragCompleted"></Slider>
+                    <TextBox Name="GTextBox" Width="40" Height="20" Text="{Binding Mode=TwoWay, ElementName=GSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="GTextBox_TextChanged" GotFocus="GTextBox_GotFocus" LostFocus="GTextBox_LostFocus"></TextBox>
+                </StackPanel>
                 <Label Width="200">B</Label>
-                <Slider Name="BSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="BSlider_ValueChanged" Thumb.DragStarted="BSlider_DragStarted" Thumb.DragCompleted="BSlider_DragCompleted"></Slider>
-                <TextBox Name="BTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=BSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="BTextBox_TextChanged" GotFocus="BTextBox_GotFocus" LostFocus="BTextBox_LostFocus"></TextBox>
-                <Rectangle Width="50" Height="50" Name="RGBRec" Stroke="Black" Fill="Black"></Rectangle>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="BSlider" Width="200" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="BSlider_ValueChanged" Thumb.DragStarted="BSlider_DragStarted" Thumb.DragCompleted="BSlider_DragCompleted"></Slider>
+                    <TextBox Name="BTextBox" Width="40" Height="20" Text="{Binding Mode=TwoWay, ElementName=BSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="BTextBox_TextChanged" GotFocus="BTextBox_GotFocus" LostFocus="BTextBox_LostFocus"></TextBox>
+                </StackPanel>
+                <Rectangle Width="200" Height="50" Margin="0 30 0 15" Name="RGBRec" Stroke="Black" Fill="Black"></Rectangle>
 
                 <Label Width="200">C</Label>
-                <Slider Name="CSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="CSlider_ValueChanged" Thumb.DragStarted="CSlider_DragStarted" Thumb.DragCompleted="CSlider_DragCompleted"></Slider>
-                <TextBox x:Name="CTextBox" Width="30" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=CSlider, UpdateSourceTrigger=PropertyChanged}" TextChanged="CTextBox_TextChanged" GotFocus="CTextBox_GotFocus" LostFocus="CTextBox_LostFocus"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="CSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="CSlider_ValueChanged" Thumb.DragStarted="CSlider_DragStarted" Thumb.DragCompleted="CSlider_DragCompleted"></Slider>
+                    <TextBox x:Name="CTextBox" Width="40" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=CSlider, UpdateSourceTrigger=PropertyChanged}" TextChanged="CTextBox_TextChanged" GotFocus="CTextBox_GotFocus" LostFocus="CTextBox_LostFocus"/>
+                </StackPanel>
                 <Label Width="200">M</Label>
-                <Slider Name="MSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="MSlider_ValueChanged" Thumb.DragStarted="MSlider_DragStarted" Thumb.DragCompleted="MSlider_DragCompleted"></Slider>
-                <TextBox Name="MTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=MSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="MTextBox_TextChanged" GotFocus="MTextBox_GotFocus" LostFocus="MTextBox_LostFocus"></TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="MSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="MSlider_ValueChanged" Thumb.DragStarted="MSlider_DragStarted" Thumb.DragCompleted="MSlider_DragCompleted"></Slider>
+                    <TextBox Name="MTextBox" Width="40" Height="20" Text="{Binding Mode=TwoWay, ElementName=MSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="MTextBox_TextChanged" GotFocus="MTextBox_GotFocus" LostFocus="MTextBox_LostFocus"></TextBox>
+                </StackPanel>
                 <Label Width="200">Y</Label>
-                <Slider Name="YSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="YSlider_ValueChanged" Thumb.DragStarted="YSlider_DragStarted" Thumb.DragCompleted="YSlider_DragCompleted"></Slider>
-                <TextBox Name="YTextBox" Width="30" Height="20" Text="{Binding Mode=TwoWay, ElementName=YSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="YTextBox_TextChanged" GotFocus="YTextBox_GotFocus" LostFocus="YTextBox_LostFocus"></TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="YSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="YSlider_ValueChanged" Thumb.DragStarted="YSlider_DragStarted" Thumb.DragCompleted="YSlider_DragCompleted"></Slider>
+                    <TextBox Name="YTextBox" Width="40" Height="20" Text="{Binding Mode=TwoWay, ElementName=YSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="YTextBox_TextChanged" GotFocus="YTextBox_GotFocus" LostFocus="YTextBox_LostFocus"></TextBox>
+                </StackPanel>
                 <Label Width="200">K</Label>
-                <Slider Name="KSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="KSlider_ValueChanged" Thumb.DragStarted="KSlider_DragStarted" Thumb.DragCompleted="KSlider_DragCompleted"></Slider>
-                <TextBox x:Name="KTextBox" Width="30" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=KSlider, UpdateSourceTrigger=PropertyChanged}" TextChanged="KTextBox_TextChanged" GotFocus="KTextBox_GotFocus" LostFocus="KTextBox_LostFocus"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Name="KSlider" Width="200" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="KSlider_ValueChanged" Thumb.DragStarted="KSlider_DragStarted" Thumb.DragCompleted="KSlider_DragCompleted"></Slider>
+                    <TextBox x:Name="KTextBox" Width="40" Height="20" Text="{Binding Value, Mode=TwoWay, ElementName=KSlider, UpdateSourceTrigger=PropertyChanged}" TextChanged="KTextBox_TextChanged" GotFocus="KTextBox_GotFocus" LostFocus="KTextBox_LostFocus"></TextBox>
+                </StackPanel>
 
-                <Rectangle Width="50" Height="50" Name="CMYKRec" Stroke="Black" Fill="Black"></Rectangle>
+                <!--<Rectangle Width="50" Height="50" Name="CMYKRec" Stroke="Black" Fill="Black"></Rectangle>-->
             </StackPanel>
         </Border>
 
         <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1" >
             <Grid Name="Canvas" Background="AntiqueWhite" PreviewMouseMove="viewport3D1_PreviewMouseMove" PreviewMouseLeftButtonDown="viewport3D1_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="viewport3D1_PreviewMouseLeftButtonUp">
-            <Viewport3D Name="viewport3D1" >
+                <Viewport3D Name="viewport3D1" >
                     <Viewport3D.Camera>
                         <PerspectiveCamera x:Name="camMain" Position="6 5 4" LookDirection="-6 -5 -4">
                             <PerspectiveCamera.Transform>
@@ -97,7 +111,7 @@
                                 <GeometryModel3D.Material>
                                     <DiffuseMaterial x:Name="matDiffuseMain">
                                         <DiffuseMaterial.Brush>
-                                            <SolidColorBrush Color="Red"/>
+                                            <SolidColorBrush x:Name="brush" Color="Red"/>
                                         </DiffuseMaterial.Brush>
                                     </DiffuseMaterial>
                                 </GeometryModel3D.Material>

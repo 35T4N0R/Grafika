@@ -29,6 +29,9 @@ namespace Grafika
         public ThirdPage()
         {
             InitializeComponent();
+
+            CalculateCMYK();
+            FillRectangles();
         }
 
         //formulas
@@ -55,13 +58,13 @@ namespace Grafika
         
         private void FillRectangles()
         {
-            if(RGBRec == null || CMYKRec == null)
+            if(RGBRec == null/* || CMYKRec == null*/)
             {
                 return;
             }
-
+            brush.Color = Color.FromRgb((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255));
             RGBRec.Fill = new SolidColorBrush(Color.FromRgb((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255)));
-            CMYKRec.Fill = new SolidColorBrush(Color.FromRgb((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255)));
+            //CMYKRec.Fill = new SolidColorBrush(Color.FromRgb((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255)));
         }
 
         private void CalculateCMYK()
@@ -434,7 +437,6 @@ namespace Grafika
         {
             if (dragging)
             {
-
                 var pos = e.GetPosition(this.viewport3D1);
 
                 var x = pos.X - this.dragStart.X;
@@ -442,7 +444,7 @@ namespace Grafika
 
                 rot.Angle = Math.Sqrt(x * x + y * y);
 
-                rot.Axis = new Vector3D(x, y, 0);
+                rot.Axis = new Vector3D(-y, 0 , -x);
             }
         }
     }
