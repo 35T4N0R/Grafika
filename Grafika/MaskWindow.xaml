@@ -7,8 +7,15 @@
         mc:Ignorable="d"
         Title="MaskWindow" Height="450" Width="800">
     <Grid >
-        <StackPanel Name="boxes" Orientation="Vertical">
-            
+        <StackPanel Orientation="Horizontal">
+            <Border BorderBrush="Black" BorderThickness="0" Width="100" HorizontalAlignment="Left" Margin="10 10 20 10">
+                <StackPanel Name="maskButtons" Orientation="Vertical">
+                    <Button Name="SaveMaskButton" Click="SaveMaskButton_Click">Save Mask</Button>
+                </StackPanel>
+            </Border>
+            <StackPanel Name="boxes" Orientation="Vertical">
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

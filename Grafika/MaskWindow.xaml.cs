@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,25 +10,30 @@ namespace Grafika
     /// </summary>
     public partial class MaskWindow : Window
     {
-        public MaskWindow()
+        List<TextBox> list = new List<TextBox>();
+        public int[,] mask = null;
+
+        private int boxNumber;
+
+        public MaskWindow(int _boxNumber)
         {
+            boxNumber = _boxNumber;
             InitializeComponent();
-            PrintInputs(7);
+            PrintInputs();
         }
 
-        public void PrintInputs(int number)
+        public void PrintInputs()
         {
-            var list = new List<TextBox>();
-            for (int i = 0; i < number; i++)
+            for (int i = 0; i < boxNumber; i++)
             {
                 var stackPanel = new StackPanel();
                 stackPanel.Orientation = Orientation.Horizontal;
                 stackPanel.Margin = new Thickness(0, 10, 0, 0);
-                for (int j = 0; j < number; j++)
+                for (int j = 0; j < boxNumber; j++)
                 {
                     var textBox = new TextBox();
-                    textBox.Width = 50;
-                    textBox.Height = 50;
+                    textBox.Width = 25;
+                    textBox.Height = 20;
                     textBox.Margin = new Thickness(10, 10, 10, 10);
 
                     stackPanel.Children.Add(textBox);
@@ -36,6 +42,22 @@ namespace Grafika
 
                 boxes.Children.Add(stackPanel);
             }
+        }
+
+        private void SaveMaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            mask = new int[boxNumber,boxNumber];
+            var iter = 0;
+            for (int i = 0; i < mask.GetLength(0); i++)
+            {
+                for (int j = 0; j < mask.GetLength(1); j++)
+                {
+                    mask[i, j] = Convert.ToInt32(list[iter++].Text);
+                }
+            }
+
+            this.DialogResult = true;
+            Close();
         }
     }
 }
