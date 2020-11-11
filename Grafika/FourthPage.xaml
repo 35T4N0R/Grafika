@@ -73,6 +73,14 @@
                     <Button Name="HistButton" Width="100" Click="HistButton_Click">Histogram</Button>
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Vertical" Width="100" Margin="0 0 10 0">
+                        <Label Width="100">Próg</Label>
+                        <TextBox Name="TresholdBox" Width="100"></TextBox>
+                    </StackPanel>
+                    <Button Name="ManTresholdingButton" Width="120" VerticalAlignment="Bottom" Click="ManTresholdingButton_Click">Ręczne Progowanie</Button>
+                </StackPanel>
+
             </StackPanel>
         </Border>
 

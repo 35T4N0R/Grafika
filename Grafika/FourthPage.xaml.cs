@@ -811,5 +811,48 @@ namespace Grafika
 
             }
         }
+
+        private void ManTresholdingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var treshold = Convert.ToInt32(TresholdBox.Text);
+
+            var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+            if (!CheckIfGray())
+            {
+                bitmap = ToGrayFunction(bitmap);   
+            }
+
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    var pixel = bitmap.GetPixel(i, j);
+                    if(pixel.R < treshold)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(0, 0, 0));
+                    }else if(pixel.R >= treshold)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(255, 255, 255));
+                    }
+                }
+            }
+
+            Image.Source = ConvertBitmap(bitmap);
+        }
+
+        public Bitmap ToGrayFunction(Bitmap bitmap)
+        {
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    var pixel = bitmap.GetPixel(i, j);
+                    bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(pixel.R, pixel.R, pixel.R));
+                }
+            }
+            
+            return bitmap;
+        }
     }
 }
