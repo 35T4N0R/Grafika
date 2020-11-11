@@ -34,6 +34,7 @@ namespace Grafika
                     var textBox = new TextBox();
                     textBox.Width = 25;
                     textBox.Height = 20;
+                    textBox.Text = "1";
                     textBox.Margin = new Thickness(10, 10, 10, 10);
 
                     stackPanel.Children.Add(textBox);

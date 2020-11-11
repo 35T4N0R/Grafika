@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -132,6 +133,32 @@ namespace Grafika
             }
 
             return true;
+        }
+
+        public List<int> StretchFunction(List<int> values)
+        {
+            var a = Convert.ToInt32(ABriBox.Text);
+            var b = Convert.ToInt32(BBriBox.Text);
+
+            var stretched_values = new List<int>();
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (values[i] < a)
+                {
+                    stretched_values.Add(0);
+                }
+                else if (values[i] > b)
+                {
+                    stretched_values.Add(255);
+                }
+                else
+                {
+                    stretched_values.Add((int)(((double)(values[i] - a) / (double)(b - a)) * 255));
+                }
+            }
+
+            return stretched_values;
         }
 
         public BitmapSource ConvOperation(int[,] mask)
@@ -749,30 +776,40 @@ namespace Grafika
             Image.Source = ConvertBitmap(bitmap);
         }
 
-
-        public List<int> StretchFunction(List<int> values)
+        private void HistButton_Click(object sender, RoutedEventArgs e)
         {
-            var a = Convert.ToInt32(ABriBox.Text);
-            var b = Convert.ToInt32(BBriBox.Text);
+            var val = CalcHistogram();
 
-            var stretched_values = new List<int>();
-
-            for (int i = 0; i < values.Count; i++)
+            if (CheckIfGray())
             {
-                if(values[i] < a)
-                {
-                    stretched_values.Add(0);
-                }else if(values[i] > b)
-                {
-                    stretched_values.Add(255);
-                }
-                else
-                {
-                    stretched_values.Add((int)(((double)(values[i] - a) / (double)(b - a)) * 255));
-                }
-            }
+                var values = val.Item1;
+                var histWindow = new HistogramWindow();
 
-            return stretched_values;
+                WindowsFormsHost host = new WindowsFormsHost();
+                HistSomething.UserControl1 graph = new HistSomething.UserControl1(values);
+                host.Child = graph;
+                histWindow.grid.Children.Add(host);
+                histWindow.Width = graph.Width + 2 * 20;
+                histWindow.Height = graph.Height + 3 * 20;
+                histWindow.Show();
+            }
+            else
+            {
+                var values_r = val.Item1;
+                var values_g = val.Item2;
+                var values_b = val.Item3;
+
+                var histWindow = new HistogramWindow();
+
+                WindowsFormsHost host = new WindowsFormsHost();
+                HistSomething.UserControl3 graph = new HistSomething.UserControl3(values_r, values_g, values_b);
+                host.Child = graph;
+                histWindow.grid.Children.Add(host);
+                histWindow.Width = graph.Width + 2 * 30;
+                histWindow.Height = graph.Height + 3 * 30;
+                histWindow.Show();
+
+            }
         }
     }
 }

@@ -16,37 +16,62 @@
 
         <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
             <StackPanel Name="inputs">
-                <TextBox Name="ValueBox" Width="100" Margin="0 10 0 20"></TextBox>
+                <Label Width="100">Wartość</Label>
+                <TextBox Name="ValueBox" Width="100" Margin="0 0 0 10"></TextBox>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="AddButton" Width="100" Margin="0 0 10 0" Click="AddButton_Click">Dodaj</Button>
+                    <Button Name="SubButton" Width="100" Click="SubButton_Click">Odejmij</Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="MultiButton" Width="100" Margin="0 0 10 0" Click="MultiButton_Click">Pomnóż</Button>
+                    <Button Name="DivButton" Width="100" Click="DivButton_Click">Podziel</Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="Gray1Button" Width="100" Margin="0 0 10 0" Click="Gray1Button_Click">Skala szarości (R)</Button>
+                    <Button Name="Gray2Button" Width="130" Click="Gray2Button_Click">Skala Szarości (Średnia)</Button>
+                </StackPanel>
                 
-                <Button Name="AddButton" Width="100" Click="AddButton_Click">Dodaj</Button>
-                <Button Name="SubButton" Width="100" Click="SubButton_Click">Odejmij</Button>
+                <Button Name="BriButton" Width="100" Click="BriButton_Click" Margin="0 0 0 10">Zmiana jasności</Button>
+
+                <Label Margin="12 0 0 0">Rozmiar</Label>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <TextBox Name="MaskBox" Width="30" Margin="0 0 10 0"></TextBox>
+                    <Button Name="MaskWindowButton" Width="100" Margin="0 0 10 0" Click="MaskWindowButton_Click">Create Mask</Button>
+                    <Button Name="MaskButton" Width="100" IsEnabled="False" Click="MaskButton_Click">Filter Image</Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="MeanButton" Width="100" Margin="0 0 10 0" Click="MeanButton_Click">Uśredniający</Button>
+                    <Button Name="SobelPozButton" Width="100" Click="SobelPozButton_Click">Sobel Poz</Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="SobelPioButton" Width="100" Margin="0 0 10 0" Click="SobelPioButton_Click">Sobel Pion</Button>
+                    <Button Name="SharpButton" Width="100" Click="SharpButton_Click">Wyostrzający</Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="GaussButton" Width="100" Margin="0 0 10 0" Click="GaussButton_Click">Gauss</Button>
+                    <Button Name="MedianButton" Width="100" Click="MedianButton_Click">Median Filter</Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Width="220" VerticalAlignment="Center" Margin="0 10 0 0">
+                    <StackPanel Orientation="Vertical" Margin="0 0 10 0">
+                        <Label>Zakres Jasności A</Label>
+                        <TextBox Name="ABriBox" Width="100" Margin="0 0 0 10"></TextBox>
+                    </StackPanel>
                 
-                <Button Name="MultiButton" Width="100" Click="MultiButton_Click">Pomnóż</Button>
-                <Button Name="DivButton" Width="100" Click="DivButton_Click">Podziel</Button>
+                    <StackPanel Orientation="Vertical">
+                        <Label>Zakres Jasności B</Label>
+                        <TextBox Name="BBriBox" Width="100" Margin="0 0 0 10"></TextBox>
+                    </StackPanel>
+                </StackPanel>
                 
-                <Button Name="Gray1Button" Width="100" Click="Gray1Button_Click">Skala szarości 1</Button>
-                <Button Name="Gray2Button" Width="100" Click="Gray2Button_Click">Skala Szarości 2</Button>
-                
-                <Button Name="BriButton" Width="100" Click="BriButton_Click">Zmiana jasności</Button>
-                
-                <TextBox Name="MaskBox" Width="100" Margin="0 10 0 20"></TextBox>
-                <Button Name="MaskWindowButton" Width="100" Click="MaskWindowButton_Click">Create Mask</Button>
-                <Button Name="MaskButton" Width="100" IsEnabled="False" Click="MaskButton_Click">Filter Image</Button>
+                <Button Name="StrechHistButton" Width="120" Margin="0 0 0 10" Click="StrechHistButton_Click">Rozciągnij histogram</Button>
 
-
-                <Button Name="MeanButton" Width="100" Click="MeanButton_Click">Uśredniający</Button>
-                <Button Name="SobelPozButton" Width="100" Click="SobelPozButton_Click">Sobel Poz</Button>
-                <Button Name="SobelPioButton" Width="100" Click="SobelPioButton_Click">Sobel Pion</Button>
-                <Button Name="SharpButton" Width="100" Click="SharpButton_Click">Wyostrzający</Button>
-                <Button Name="GaussButton" Width="100" Click="GaussButton_Click">Gauss</Button>
-                <Button Name="MedianButton" Width="100" Click="MedianButton_Click">Median Filter</Button>
-
-
-                <Button Name="EqHistButton" Width="100" Click="EqHistButton_Click">Wyrównaj histogram</Button>
-                <TextBox Name="ABriBox" Width="100" Margin="0 10 0 20"></TextBox>
-                <TextBox Name="BBriBox" Width="100" Margin="0 10 0 20"></TextBox>
-                <Button Name="StrechHistButton" Width="100" Click="StrechHistButton_Click">Rozciągnij histogram</Button>
-
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Name="EqHistButton" Width="120" Margin="0 0 10 0" Click="EqHistButton_Click">Wyrównaj histogram</Button>
+                    <Button Name="HistButton" Width="100" Click="HistButton_Click">Histogram</Button>
+                </StackPanel>
 
             </StackPanel>
         </Border>
