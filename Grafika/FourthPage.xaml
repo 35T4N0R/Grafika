@@ -40,6 +40,14 @@
                 <Button Name="SharpButton" Width="100" Click="SharpButton_Click">Wyostrzający</Button>
                 <Button Name="GaussButton" Width="100" Click="GaussButton_Click">Gauss</Button>
                 <Button Name="MedianButton" Width="100" Click="MedianButton_Click">Median Filter</Button>
+
+
+                <Button Name="EqHistButton" Width="100" Click="EqHistButton_Click">Wyrównaj histogram</Button>
+                <TextBox Name="ABriBox" Width="100" Margin="0 10 0 20"></TextBox>
+                <TextBox Name="BBriBox" Width="100" Margin="0 10 0 20"></TextBox>
+                <Button Name="StrechHistButton" Width="100" Click="StrechHistButton_Click">Rozciągnij histogram</Button>
+
+
             </StackPanel>
         </Border>
 

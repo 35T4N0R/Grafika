@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -45,9 +46,79 @@ namespace Grafika
             return bitmap;
         }
 
+        public (int[], int[], int[]) CalcHistogram()
+        {
+            var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+            if (CheckIfGray())
+            {
+                var values = new int[256];
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        var pixel = bitmap.GetPixel(i, j);
+
+                        values[pixel.R] += 1;
+                    }
+                }
+
+                return (values, null, null);
+            }
+            else
+            {
+                var values_r = new int[256];
+                var values_g = new int[256];
+                var values_b = new int[256];
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        var pixel = bitmap.GetPixel(i, j);
+
+                        values_r[pixel.R] += 1;
+                        values_g[pixel.G] += 1;
+                        values_b[pixel.B] += 1;
+                    }
+                }
+
+                return (values_r, values_g, values_b);
+            }
+
+
+        }
+
+        public List<double> CalcDistribution(int[] values, int pixelAmount)
+        {
+            var distribution = new List<double>();
+            double dist = 0.0;
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                dist += ((double)values[i] / (double)pixelAmount);
+                distribution.Add(dist);
+            }
+
+            return distribution;
+        }
+
+        public List<int> CalcLUTTable(List<double> distribution)
+        {
+            var LUT_table = new List<int>();
+            var m = 256;
+
+            for (int i = 0; i < distribution.Count; i++)
+            {
+                LUT_table.Add((int)((distribution[i] - distribution[0]) / (1 - distribution[0]) * (m - 1)));
+            }
+            return LUT_table;
+        }
+
         public bool CheckIfGray()
         {
-            var bitmap = BitmapFromSource((BitmapSource)originalImage);
+            var bitmap = BitmapFromSource((BitmapSource)Image.Source);
 
             for (int i = 0; i < bitmap.Width; i++)
             {
@@ -442,9 +513,9 @@ namespace Grafika
 
         private void GaussButton_Click(object sender, RoutedEventArgs e)
         {
-            int[,] mask = new int[,]{{1, 4, 1 },
-                                     {4, 32, 4 },
-                                     {1, 4, 1 } };
+            int[,] mask = new int[,]{{1, 2, 1 },
+                                     {2, 4, 2 },
+                                     {1, 2, 1 } };
 
             Image.Source = ConvOperation(mask);
         }
@@ -549,6 +620,159 @@ namespace Grafika
                                           MessageBoxImage.Error);
                 return;
             }
+        }
+
+        private void EqHistButton_Click(object sender, RoutedEventArgs e)
+        {
+            var val = CalcHistogram();
+            var pixelAmount = 0;
+
+            foreach (var v in val.Item1)
+            {
+                pixelAmount += v;
+            }
+
+            if (CheckIfGray())
+            {
+                var values = val.Item1;
+
+                var distribution = CalcDistribution(values, pixelAmount);
+                var LUT_table = CalcLUTTable(distribution);
+
+                var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        var pixel = bitmap.GetPixel(i, j);
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(LUT_table[pixel.R], LUT_table[pixel.R], LUT_table[pixel.R]));
+                    }
+                }
+
+                Image.Source = ConvertBitmap(bitmap);
+
+            }
+            else
+            {
+                var values_r = val.Item1;
+                var values_g = val.Item2;
+                var values_b = val.Item3;
+
+                var distribution_r = CalcDistribution(values_r, pixelAmount);
+                var distribution_g = CalcDistribution(values_g, pixelAmount);
+                var distribution_b = CalcDistribution(values_b, pixelAmount);
+                var LUT_table_r = CalcLUTTable(distribution_r);
+                var LUT_table_g = CalcLUTTable(distribution_g);
+                var LUT_table_b = CalcLUTTable(distribution_b);
+
+                var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        var pixel = bitmap.GetPixel(i, j);
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(LUT_table_r[pixel.R], LUT_table_g[pixel.G], LUT_table_b[pixel.B]));
+                    }
+                }
+
+                Image.Source = ConvertBitmap(bitmap);
+            }
+
+            
+        }
+
+        private void StrechHistButton_Click(object sender, RoutedEventArgs e)
+        {
+            var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+            if (CheckIfGray())
+            {
+                var values = new List<int>();
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        values.Add(bitmap.GetPixel(i, j).R);
+                    }
+                }
+
+                var stretched = StretchFunction(values);
+
+                var iter = 0;
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(stretched[iter], stretched[iter], stretched[iter]));
+                        iter++;
+                    }
+                }
+
+                
+            }
+            else
+            {
+                var values_r = new List<int>();
+                var values_g = new List<int>();
+                var values_b = new List<int>();
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        values_r.Add(bitmap.GetPixel(i, j).R);
+                        values_g.Add(bitmap.GetPixel(i, j).G);
+                        values_b.Add(bitmap.GetPixel(i, j).B);
+                    }
+                }
+
+                var stretched_r = StretchFunction(values_r);
+                var stretched_g = StretchFunction(values_g);
+                var stretched_b = StretchFunction(values_b);
+
+                var iter = 0;
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(stretched_r[iter], stretched_g[iter], stretched_b[iter]));
+                        iter++;
+                    }
+                }
+
+                
+            }
+
+            Image.Source = ConvertBitmap(bitmap);
+        }
+
+
+        public List<int> StretchFunction(List<int> values)
+        {
+            var a = Convert.ToInt32(ABriBox.Text);
+            var b = Convert.ToInt32(BBriBox.Text);
+
+            var stretched_values = new List<int>();
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                if(values[i] < a)
+                {
+                    stretched_values.Add(0);
+                }else if(values[i] > b)
+                {
+                    stretched_values.Add(255);
+                }
+                else
+                {
+                    stretched_values.Add((int)(((double)(values[i] - a) / (double)(b - a)) * 255));
+                }
+            }
+
+            return stretched_values;
         }
     }
 }

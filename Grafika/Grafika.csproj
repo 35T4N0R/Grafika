@@ -66,6 +66,9 @@
     <Compile Include="FourthPage.xaml.cs">
       <DependentUpon>FourthPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HistogramWindow.xaml.cs">
+      <DependentUpon>HistogramWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JsonObject.cs" />
     <Compile Include="MaskWindow.xaml.cs">
       <DependentUpon>MaskWindow.xaml</DependentUpon>
@@ -85,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FourthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HistogramWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
