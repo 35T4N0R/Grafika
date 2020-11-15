@@ -679,6 +679,20 @@ namespace Grafika
 
                 Image.Source = ConvertBitmap(bitmap);
 
+                var val4hist = CalcHistogram();
+
+                var values4hist = val4hist.Item1;
+
+                var histWindow = new HistogramWindow();
+
+                WindowsFormsHost host = new WindowsFormsHost();
+                HistSomething.UserControl1 graph = new HistSomething.UserControl1(values4hist);
+                host.Child = graph;
+                histWindow.grid.Children.Add(host);
+                histWindow.Width = graph.Width + 2 * 20;
+                histWindow.Height = graph.Height + 3 * 20;
+                histWindow.Show();
+
             }
             else
             {
@@ -705,6 +719,22 @@ namespace Grafika
                 }
 
                 Image.Source = ConvertBitmap(bitmap);
+
+                var val4hist = CalcHistogram();
+
+                var values_r4hist = val4hist.Item1;
+                var values_g4hist = val4hist.Item2;
+                var values_b4hist = val4hist.Item3;
+
+                var histWindow = new HistogramWindow();
+
+                WindowsFormsHost host = new WindowsFormsHost();
+                HistSomething.UserControl3 graph = new HistSomething.UserControl3(values_r4hist, values_g4hist, values_b4hist);
+                host.Child = graph;
+                histWindow.grid.Children.Add(host);
+                histWindow.Width = graph.Width + 2 * 30;
+                histWindow.Height = graph.Height + 3 * 30;
+                histWindow.Show();
             }
 
             
@@ -738,7 +768,26 @@ namespace Grafika
                     }
                 }
 
-                
+                Image.Source = ConvertBitmap(bitmap);
+
+                var val = CalcHistogram();
+
+                var values4hist = val.Item1;
+
+                values4hist[0] = 0;
+                values4hist[255] = 0;
+
+                var histWindow = new HistogramWindow();
+
+                WindowsFormsHost host = new WindowsFormsHost();
+                HistSomething.UserControl1 graph = new HistSomething.UserControl1(values4hist);
+                host.Child = graph;
+                histWindow.grid.Children.Add(host);
+                histWindow.Width = graph.Width + 2 * 20;
+                histWindow.Height = graph.Height + 3 * 20;
+                histWindow.Show();
+
+
             }
             else
             {
@@ -770,10 +819,35 @@ namespace Grafika
                     }
                 }
 
+                Image.Source = ConvertBitmap(bitmap);
+
+                var val = CalcHistogram();
+
+                var values_r4hist = val.Item1;
+                var values_g4hist = val.Item2;
+                var values_b4hist = val.Item3;
+
+                values_r4hist[0] = 0;
+                values_r4hist[255] = 0;
+                values_g4hist[0] = 0;
+                values_g4hist[255] = 0;
+                values_b4hist[0] = 0;
+                values_b4hist[255] = 0;
+
+                var histWindow = new HistogramWindow();
+
+                WindowsFormsHost host = new WindowsFormsHost();
+                HistSomething.UserControl3 graph = new HistSomething.UserControl3(values_r4hist, values_g4hist, values_b4hist);
+                host.Child = graph;
+                histWindow.grid.Children.Add(host);
+                histWindow.Width = graph.Width + 2 * 30;
+                histWindow.Height = graph.Height + 3 * 30;
+                histWindow.Show();
                 
             }
 
-            Image.Source = ConvertBitmap(bitmap);
+            
+
         }
 
         private void HistButton_Click(object sender, RoutedEventArgs e)
@@ -853,6 +927,159 @@ namespace Grafika
             }
             
             return bitmap;
+        }
+
+        private void PercentageButton_Click(object sender, RoutedEventArgs e)
+        {
+            var perc = Convert.ToDouble(PercentageBox.Text)/100.0;
+
+            var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+            var maxPixels = bitmap.Width * bitmap.Height;
+
+            var histogram = CalcHistogram().Item1;
+
+            int suma = 0;
+            int treshold = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                suma += histogram[i];
+
+                if(suma >= maxPixels * perc)
+                {
+                    treshold = i;
+                    break;
+                }
+            }
+
+
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    var pixel = bitmap.GetPixel(i, j);
+                    if (pixel.R < treshold)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(0, 0, 0));
+                    }
+                    else if (pixel.R >= treshold)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(255, 255, 255));
+                    }
+                }
+            }
+
+            Image.Source = ConvertBitmap(bitmap);
+        }
+
+        private void EntropyButton_Click(object sender, RoutedEventArgs e)
+        {
+            var bitmap = BitmapFromSource((BitmapSource)Image.Source);
+
+            var histogram = CalcHistogram().Item1;
+
+            var maxPixels = bitmap.Width * bitmap.Height;
+
+            List<int> wyniki = new List<int>();
+
+            wyniki.Add(127);
+
+            int treshold = 0;
+            int k = 1;
+
+            while(true)
+            {
+                var t = wyniki[k - 1];
+
+                int jeden = 0;
+                int dwa = 0;
+
+                for (int i = 0; i < t; i++)
+                {
+                    jeden += (i * histogram[i]);
+                    dwa += histogram[i];
+                }
+
+                int lewo = (int)((double)jeden / (double)(2 * dwa));
+
+                int trzy = 0;
+                int cztery = 0;
+
+                for (int i = t + 1; i < 256; i++)
+                {
+                    trzy += i * histogram[i];
+                    cztery += histogram[i];
+                }
+
+                int prawo = (int)((double)trzy / (double)(2 * cztery));
+
+                var wynik = lewo + prawo;
+
+                wyniki.Add(wynik);
+                
+                
+                k++;
+                var TB = new List<int>();
+                var TW = new List<int>();
+
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        var pixel = bitmap.GetPixel(i, j);
+                        if(pixel.R < wynik)
+                        {
+                            TB.Add(pixel.R);
+                        }else if(pixel.R >= wynik)
+                        {
+                            TW.Add(pixel.R);
+                        }
+                    }
+                }
+
+                int sumaTB = 0;
+                int sumeTW = 0;
+
+                for (int i = 0; i < TB.Count; i++)
+                {
+                    sumaTB += TB[i];
+                }
+
+                for (int i = 0; i < TW.Count; i++)
+                {
+                    sumeTW += TW[i];
+                }
+
+                var meanTB = (int)((double)sumaTB / (double)TB.Count);
+                var meanTW = (int)((double)sumeTW / (double)TW.Count);
+
+
+
+                if (wynik == t || meanTB == meanTW)
+                {
+                    treshold = wynik;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    var pixel = bitmap.GetPixel(i, j);
+                    if (pixel.R < treshold)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(0, 0, 0));
+                    }
+                    else if (pixel.R >= treshold)
+                    {
+                        bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(255, 255, 255));
+                    }
+                }
+            }
+
+            Image.Source = ConvertBitmap(bitmap);
+
         }
     }
 }
