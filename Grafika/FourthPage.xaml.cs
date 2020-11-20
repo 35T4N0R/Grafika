@@ -1081,5 +1081,10 @@ namespace Grafika
             Image.Source = ConvertBitmap(bitmap);
 
         }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            Image.Source = originalImage;
+        }
     }
 }
