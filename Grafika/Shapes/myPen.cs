@@ -20,6 +20,8 @@ namespace Grafika.Shapes
                 _holder.Children.Add((obj as myLine).Line);
             if (obj is myRectangle)
                 _holder.Children.Add((obj as myRectangle).Rectangle);
+            if (obj is CurvePoint)
+                _holder.Children.Add((obj as CurvePoint).Circle);
 
         }
 

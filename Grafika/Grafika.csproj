@@ -67,6 +67,9 @@
     <Compile Include="FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FithfPage.xaml.cs">
+      <DependentUpon>FithfPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FourthPage.xaml.cs">
       <DependentUpon>FourthPage.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,10 @@
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
     <Page Include="FirstPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FithfPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

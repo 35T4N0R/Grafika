@@ -1,0 +1,59 @@
+﻿<Page x:Class="Grafika.FithfPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Grafika"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1400"
+      Title="FithfPage">
+
+    <DockPanel>
+        <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
+            <Button Name="Load" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>
+            <Button Name="Reset" BorderBrush="#FF969696" Content="Reset" Height="50" Width="80" Click="Reset_Click"/>
+        </ToolBar>
+
+        <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
+            <StackPanel Name="inputs">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Vertical">
+                        <Label>X</Label>
+                        <TextBox Name="XBox" Width="100"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                        <Label>Y</Label>
+                        <TextBox Name="YBox" Width="100"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <Button Name="AddPointButton" Width="75" Margin="0 15 0 0" Click="AddPointButton_Click">Dodaj Punkt</Button>
+                
+            </StackPanel>
+        </Border>
+
+        <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1">
+            <Canvas Name="Canvas"  Background="AntiqueWhite"  MouseDown="Canvas_MouseDown" MouseRightButtonDown="Canvas_MouseRightButtonDown" MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove"  ClipToBounds="True">
+                <!--<Path Stroke="Black" StrokeThickness="1">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigureCollection>
+                                    <PathFigure StartPoint="100,500">
+                                        <PathFigure.Segments>
+                                            <PathSegmentCollection>
+                                                <PolyBezierSegment Points=" 300,100 500,500 600,100" />
+                                            </PathSegmentCollection>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                </PathFigureCollection>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>-->
+            </Canvas>
+        </Border>
+
+
+    </DockPanel>
+</Page>

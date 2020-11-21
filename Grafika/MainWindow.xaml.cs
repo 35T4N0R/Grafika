@@ -16,7 +16,7 @@ namespace Grafika
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Content = new FourthPage();
+            MainFrame.Content = new FithfPage();
         }
         
     }
