@@ -41,6 +41,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Name="MovePolygonButton" Width="75" Margin="0 15 0 0" Click="MovePolygonButton_Click">Przesuń</Button>
                     <Button Name="RotatePolygonButton" Width="75" Margin="0 15 0 0" Click="RotatePolygonButton_Click">Obróć</Button>
+                    <Button Name="ScalePolygonButton" Width="75" Margin="0 15 0 0" Click="ScalePolygonButton_Click">Skaluj</Button>
                 </StackPanel>
 
             </StackPanel>

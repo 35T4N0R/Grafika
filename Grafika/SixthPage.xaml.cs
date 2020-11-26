@@ -165,8 +165,39 @@ namespace Grafika
                         point.X = xOutcome;
                         point.Y = yOutcome;
 
-                        var centerX = Canvas.GetLeft(points[i]);
-                        var centerY = Canvas.GetTop(points[i]);
+                        points[i].SetValue(Canvas.TopProperty, yOutcome - R);
+                        points[i].SetValue(Canvas.LeftProperty, xOutcome - R);
+
+                        pol.Points[i] = point;
+
+                    }
+                }
+            }
+        }
+
+        private void ScalePolygonButton_Click(object sender, RoutedEventArgs e)
+        {
+            var xsT = XBox.Text;
+            var ysT = YBox.Text;
+            var kT = kBox.Text;
+
+            if (!String.IsNullOrEmpty(xsT) && !String.IsNullOrEmpty(ysT) && !String.IsNullOrEmpty(kT))
+            {
+                var xsResult = Double.TryParse(xsT, out double xs);
+                var ysResult = Double.TryParse(ysT, out double ys);
+                var kResult = Double.TryParse(kT, out double k);
+
+                if (xsResult && ysResult && kResult)
+                {
+                    for (int i = 0; i < pol.Points.Count; i++)
+                    {
+                        var point = pol.Points[i];
+
+                        var xOutcome = (point.X * k) + ((1 - k) * xs);
+                        var yOutcome = (point.Y * k) + ((1 - k) * ys);
+
+                        point.X = xOutcome;
+                        point.Y = yOutcome;
 
                         points[i].SetValue(Canvas.TopProperty, yOutcome - R);
                         points[i].SetValue(Canvas.LeftProperty, xOutcome - R);
