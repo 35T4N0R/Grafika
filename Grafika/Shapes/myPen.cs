@@ -14,14 +14,38 @@ namespace Grafika.Shapes
 
         public void Down(IDrawable obj)
         {
-            if (obj is myCircle)
-                _holder.Children.Add((obj as myCircle).Circle);
-            if (obj is myLine)
-                _holder.Children.Add((obj as myLine).Line);
-            if (obj is myRectangle)
-                _holder.Children.Add((obj as myRectangle).Rectangle);
-            if (obj is CurvePoint)
-                _holder.Children.Add((obj as CurvePoint).Circle);
+
+            switch (obj)
+            {
+                case myCircle mc:
+                    _holder.Children.Add((obj as myCircle).Circle);
+                    break;
+                case myLine ml:
+                    _holder.Children.Add((obj as myLine).Line);
+                    break;
+                case myRectangle mr:
+                    _holder.Children.Add((obj as myRectangle).Rectangle);
+                    break;
+                case CurvePoint cp:
+                    _holder.Children.Add((obj as CurvePoint).Circle);
+                    break;
+                case PolygonPoint pp:
+                    _holder.Children.Add((obj as PolygonPoint).Circle);
+                    break;
+                default:
+                    break;
+            }
+
+            //if (obj is myCircle)
+            //    _holder.Children.Add((obj as myCircle).Circle);
+            //if (obj is myLine)
+            //    _holder.Children.Add((obj as myLine).Line);
+            //if (obj is myRectangle)
+            //    _holder.Children.Add((obj as myRectangle).Rectangle);
+            //if (obj is CurvePoint)
+            //    _holder.Children.Add((obj as CurvePoint).Circle);
+            //if (obj is CurvePoint)
+            //    _holder.Children.Add((obj as CurvePoint).Circle);
 
         }
 

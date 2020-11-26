@@ -87,6 +87,9 @@
     <Compile Include="Shapes\myLine.cs" />
     <Compile Include="Shapes\myPen.cs" />
     <Compile Include="Shapes\myRectangle.cs" />
+    <Compile Include="SixthPage.xaml.cs">
+      <DependentUpon>SixthPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SecondPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SixthPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
