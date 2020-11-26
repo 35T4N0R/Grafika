@@ -216,6 +216,64 @@ namespace Grafika
             XBox.Text = pos.X.ToString();
             YBox.Text = pos.Y.ToString();
         }
+
+        int OffsetX;
+        int OffsetY;
+
+        private void pol_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.DirectlyOver == pol)
+            {
+                Cursor = Cursors.ScrollAll;
+            }
+            
+            if (DragInProgress)
+            {
+                var pos = e.MouseDevice.GetPosition(Canvas);
+
+
+                // See how far the first point will move.
+                int new_x1 = (int)(pos.X + OffsetX);
+                int new_y1 = (int)(pos.Y + OffsetY);
+
+                int dx = (int)(new_x1 - pol.Points[0].X);
+                int dy = (int)(new_y1 - pol.Points[0].Y);
+
+                if (dx == 0 && dy == 0) return;
+
+                // Move the polygon.
+                for (int i = 0; i < pol.Points.Count; i++)
+                {
+                    pol.Points[i] = new Point( pol.Points[i].X + dx, pol.Points[i].Y + dy);
+
+                    var centerX = Canvas.GetLeft(points[i]);
+                    var centerY = Canvas.GetTop(points[i]);
+
+                    points[i].SetValue(Canvas.TopProperty, centerY + dy);
+                    points[i].SetValue(Canvas.LeftProperty, centerX + dx);
+
+                }
+
+                // Redraw.
+                //Canvas.Invalidate();
+            }
+        }
+
+        private void pol_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var pos = e.MouseDevice.GetPosition(Canvas);
+
+            OffsetX = (int)(pol.Points[0].X - pos.X);
+            OffsetY = (int)(pol.Points[0].Y - pos.Y);
+
+            DragInProgress = true;
+        }
+
+        private void pol_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            DragInProgress = false;
+            Mouse.Capture(null);
+        }
     }
 
     public class PolygonPoint : IDrawable

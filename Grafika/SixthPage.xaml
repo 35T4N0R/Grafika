@@ -49,7 +49,7 @@
 
         <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1">
             <Canvas Name="Canvas"  Background="AntiqueWhite"  MouseRightButtonDown="Canvas_MouseRightButtonDown" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="Canvas_MouseLeftButtonDown"  ClipToBounds="True">
-                <Polygon Name="pol">
+                <Polygon Name="pol" MouseMove="pol_MouseMove" MouseDown="pol_MouseDown" MouseUp="pol_MouseUp">
                     
                 </Polygon>
             </Canvas>
