@@ -10,7 +10,8 @@
 
     <DockPanel>
         <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
-            <Button Name="Load" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>
+            <Button Name="Load" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80" Click="Load_Click"/>
+            <Button Name="Save" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80" Click="Save_Click"/>
             <Button Name="Reset" BorderBrush="#FF969696" Content="Reset" Height="50" Width="80" Click="Reset_Click"/>
             <Rectangle Name="NewPolygon" Width="10" Height="10" Fill="LightGreen" Margin="20 0 0 0"></Rectangle>
         </ToolBar>
@@ -50,9 +51,7 @@
 
         <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1">
             <Canvas Name="Canvas"  Background="AntiqueWhite"  MouseRightButtonDown="Canvas_MouseRightButtonDown" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="Canvas_MouseLeftButtonDown"  ClipToBounds="True">
-                <Polygon Name="pol" MouseMove="pol_MouseMove" MouseDown="pol_MouseDown" MouseUp="pol_MouseUp">
-                    
-                </Polygon>
+                
             </Canvas>
         </Border>
 

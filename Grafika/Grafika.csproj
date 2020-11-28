@@ -76,16 +76,18 @@
     <Compile Include="HistogramWindow.xaml.cs">
       <DependentUpon>HistogramWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JsonObject.cs" />
+    <Compile Include="SerializeModels\JsonObject.cs" />
     <Compile Include="MaskWindow.xaml.cs">
       <DependentUpon>MaskWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SecondPage.xaml.cs">
       <DependentUpon>SecondPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SerializeModels\JsonPolygon.cs" />
     <Compile Include="Shapes\myCircle.cs" />
     <Compile Include="Shapes\myLine.cs" />
     <Compile Include="Shapes\myPen.cs" />
+    <Compile Include="Shapes\myPolygon.cs" />
     <Compile Include="Shapes\myRectangle.cs" />
     <Compile Include="SixthPage.xaml.cs">
       <DependentUpon>SixthPage.xaml</DependentUpon>
@@ -174,5 +176,6 @@
       <Name>HistSomething</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
