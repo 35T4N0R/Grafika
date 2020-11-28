@@ -32,6 +32,9 @@ namespace Grafika.Shapes
                 case PolygonPoint pp:
                     _holder.Children.Add((obj as PolygonPoint).Circle);
                     break;
+                case myPolygon mp:
+                    _holder.Children.Add((obj as myPolygon).Polygon);
+                    break;
                 default:
                     break;
             }

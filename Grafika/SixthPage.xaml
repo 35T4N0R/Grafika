@@ -12,6 +12,7 @@
         <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
             <Button Name="Load" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>
             <Button Name="Reset" BorderBrush="#FF969696" Content="Reset" Height="50" Width="80" Click="Reset_Click"/>
+            <Rectangle Name="NewPolygon" Width="10" Height="10" Fill="LightGreen" Margin="20 0 0 0"></Rectangle>
         </ToolBar>
 
         <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">

@@ -20,6 +20,8 @@ namespace Grafika
         private readonly myPen _pen;
         public bool DragInProgress = false;
         public const double R = 4;
+        public bool drawing = false;
+        public myPolygon currentPolygon;
         public SixthPage()
         {
             InitializeComponent();
@@ -43,11 +45,7 @@ namespace Grafika
             points.Add((_dr as PolygonPoint).Circle);
             _pen.Down(_dr);
 
-            if (points.Count >= 3)
-            {
-                DrawPolygon();
-
-            }
+            DrawPolygon((_dr as PolygonPoint).Circle);
         }
 
         public void RemovePolygons()
@@ -76,22 +74,36 @@ namespace Grafika
             return pointList;
         }
 
-        public void DrawPolygon()
+        public void DrawPolygon(Ellipse pp)
         {
+
             //RemovePolygons();
-            Polygon polygon = pol;
-            if(points.Count == 3)
+            if (drawing)
             {
-                //polygon = new Polygon();
-                polygon.Fill = Brushes.LightPink;
-                polygon.StrokeThickness = 1;
-                polygon.Points = new PointCollection(ConvertCirclesToPoints());
+
+                currentPolygon.AddPoint(pp);
             }
-            else if(points.Count > 3)
+            else
             {
-                //polygon = (Polygon)Canvas.FindName("polygon");
-                polygon.Points.Add(new Point(Canvas.GetLeft(points[points.Count - 1]) + R, Canvas.GetTop(points[points.Count - 1]) + R)); /*= new PointCollection(ConvertCirclesToPoints());*/ /*{ new Point(10, 10), new Point(100, 100), new Point(200, 200) };*/
+                var polygon = new myPolygon();
+                _pen.Down(polygon);
+                currentPolygon = polygon;
+                currentPolygon.AddPoint(pp);
+                drawing = true;
+                NewPolygon.Fill = Brushes.Red;
             }
+            //if(points.Count == 3)
+            //{
+            //    //polygon = new Polygon();
+            //    polygon.Points = new PointCollection(ConvertCirclesToPoints());
+            //}
+            //else if(points.Count > 3)
+            //{
+            //    //polygon = (Polygon)Canvas.FindName("polygon");
+            //    polygon.Points.Add(new Point(Canvas.GetLeft(points[points.Count - 1]) + R, Canvas.GetTop(points[points.Count - 1]) + R)); /*= new PointCollection(ConvertCirclesToPoints());*/ /*{ new Point(10, 10), new Point(100, 100), new Point(200, 200) };*/
+            //}
+
+            //_pen.Draw()
 
         }
 
@@ -99,13 +111,12 @@ namespace Grafika
         {
             for (int i = 0; i < Canvas.Children.Count; i++)
             {
-                if (Canvas.Children[i] is Ellipse)
-                {
-                    Canvas.Children.RemoveAt(i--);
-                }
+                Canvas.Children.RemoveAt(i--);
             }
-            points = new List<Ellipse>();
-            pol.Points = new PointCollection();
+            drawing = false;
+            NewPolygon.Fill = Brushes.LightGreen;
+            //currentPolygon.PolygonPoints = new List<Ellipse>();
+            //currentPolygon.Polygon.Points = new PointCollection();
         }
 
         private void MovePolygonButton_Click(object sender, RoutedEventArgs e)
@@ -120,19 +131,19 @@ namespace Grafika
 
                 if (hResult && vResult)
                 {
-                    for (int i = 0; i < pol.Points.Count; i++)
+                    for (int i = 0; i < currentPolygon.Polygon.Points.Count; i++)
                     {
-                        var point = pol.Points[i];
+                        var point = currentPolygon.Polygon.Points[i];
                         point.X += h;
                         point.Y += v;
 
-                        var centerX = Canvas.GetLeft(points[i]);
-                        var centerY = Canvas.GetTop(points[i]);
+                        var centerX = Canvas.GetLeft(currentPolygon.PolygonPoints[i]);
+                        var centerY = Canvas.GetTop(currentPolygon.PolygonPoints[i]);
 
-                        points[i].SetValue(Canvas.TopProperty, centerY + v);
-                        points[i].SetValue(Canvas.LeftProperty, centerX + h);
+                        currentPolygon.PolygonPoints[i].SetValue(Canvas.TopProperty, centerY + v);
+                        currentPolygon.PolygonPoints[i].SetValue(Canvas.LeftProperty, centerX + h);
 
-                        pol.Points[i] = point;
+                        currentPolygon.Polygon.Points[i] = point;
 
                     }
                 }
@@ -153,9 +164,9 @@ namespace Grafika
 
                 if (x0Result && y0Result && alfaResult)
                 {
-                    for (int i = 0; i < pol.Points.Count; i++)
+                    for (int i = 0; i < currentPolygon.Polygon.Points.Count; i++)
                     {
-                        var point = pol.Points[i];
+                        var point = currentPolygon.Polygon.Points[i];
 
                         var radians = Math.PI * alfa / 180.0;
 
@@ -165,10 +176,10 @@ namespace Grafika
                         point.X = xOutcome;
                         point.Y = yOutcome;
 
-                        points[i].SetValue(Canvas.TopProperty, yOutcome - R);
-                        points[i].SetValue(Canvas.LeftProperty, xOutcome - R);
+                        currentPolygon.PolygonPoints[i].SetValue(Canvas.TopProperty, yOutcome - R);
+                        currentPolygon.PolygonPoints[i].SetValue(Canvas.LeftProperty, xOutcome - R);
 
-                        pol.Points[i] = point;
+                        currentPolygon.Polygon.Points[i] = point;
 
                     }
                 }
@@ -189,9 +200,9 @@ namespace Grafika
 
                 if (xsResult && ysResult && kResult)
                 {
-                    for (int i = 0; i < pol.Points.Count; i++)
+                    for (int i = 0; i < currentPolygon.Polygon.Points.Count; i++)
                     {
-                        var point = pol.Points[i];
+                        var point = currentPolygon.Polygon.Points[i];
 
                         var xOutcome = (point.X * k) + ((1 - k) * xs);
                         var yOutcome = (point.Y * k) + ((1 - k) * ys);
@@ -199,10 +210,10 @@ namespace Grafika
                         point.X = xOutcome;
                         point.Y = yOutcome;
 
-                        points[i].SetValue(Canvas.TopProperty, yOutcome - R);
-                        points[i].SetValue(Canvas.LeftProperty, xOutcome - R);
+                        currentPolygon.PolygonPoints[i].SetValue(Canvas.TopProperty, yOutcome - R);
+                        currentPolygon.PolygonPoints[i].SetValue(Canvas.LeftProperty, xOutcome - R);
 
-                        pol.Points[i] = point;
+                        currentPolygon.Polygon.Points[i] = point;
 
                     }
                 }
@@ -211,10 +222,22 @@ namespace Grafika
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var pos = e.MouseDevice.GetPosition(Canvas);
+            
 
-            XBox.Text = pos.X.ToString();
-            YBox.Text = pos.Y.ToString();
+            /* Check if it is a double click */
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                drawing = false;
+                NewPolygon.Fill = Brushes.LightGreen;
+            }
+            else
+            {
+                var pos = e.MouseDevice.GetPosition(Canvas);
+
+                XBox.Text = pos.X.ToString();
+                YBox.Text = pos.Y.ToString();
+            }
+            e.Handled = true;
         }
 
         int OffsetX;
@@ -518,6 +541,158 @@ namespace Grafika
                 Circle.Height = Math.Abs(height);
                 Circle.Width = Math.Abs(width);
             }
+        }
+
+        public void modifyCircle(object sender, RoutedEventArgs e)
+        {
+            //var x = Convert.ToDouble(((TextBox)sp.inputs.FindName("XBox")).Text);
+            //var y = Convert.ToDouble(((TextBox)sp.inputs.FindName("YBox")).Text);
+
+            //Circle.SetValue(Canvas.TopProperty, y - FithfPage.R);
+            //Circle.SetValue(Canvas.LeftProperty, x - FithfPage.R);
+
+            //Circle.Height = Math.Abs(FithfPage.R * 2);
+            //Circle.Width = Math.Abs(FithfPage.R * 2);
+
+            //if (sp.points.Count >= 3)
+            //{
+            //    sp.CalculateXY();
+            //    sp.DrawLines();
+            //}
+        }
+
+        public void SetCursor(Shape shape, Point point)
+        {
+            double left = Canvas.GetLeft(shape);
+            double top = Canvas.GetTop(shape);
+            double right = left + shape.Width;
+            double bottom = top + shape.Height;
+
+            if (point.X < left || point.X > right || point.Y < top | point.Y > bottom)
+            {
+                sp.Cursor = Cursors.Arrow;
+                return;
+            }
+
+            sp.Cursor = Cursors.ScrollAll;
+
+            return;
+        }
+    }
+
+    public class myPolygon : IDrawable
+    {
+        public Polygon Polygon { get; set; }
+        public List<Ellipse> PolygonPoints { get; set; }
+
+        int OffsetX;
+        int OffsetY;
+
+
+        public myPolygon()
+        {
+            Polygon = new Polygon()
+            {
+                Fill = Brushes.LightPink,
+                StrokeThickness = 1
+            };
+            PolygonPoints = new List<Ellipse>();
+
+            Polygon.MouseMove += new MouseEventHandler(Polygon_MouseMove);
+            Polygon.MouseUp += new MouseButtonEventHandler(Polygon_MouseUp);
+            Polygon.MouseLeftButtonDown += new MouseButtonEventHandler(Polygon_MouseDown);
+
+        }
+
+        MainWindow mw = (MainWindow)Application.Current.MainWindow;
+        SixthPage sp = (((MainWindow)Application.Current.MainWindow).Content as Frame).Content as SixthPage;
+
+        public void AddPoint(Ellipse pp)
+        {
+            PolygonPoints.Add(pp);
+
+            Polygon.Points.Add(new Point(Canvas.GetLeft(pp) + SixthPage.R, Canvas.GetTop(pp) + SixthPage.R));
+        }
+
+        private void Polygon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            sp.currentPolygon = this;
+
+            var pos = e.MouseDevice.GetPosition(sp.Canvas);
+
+            OffsetX = (int)(Polygon.Points[0].X - pos.X);
+            OffsetY = (int)(Polygon.Points[0].Y - pos.Y);
+
+            sp.DragInProgress = true;
+        }
+
+        private void Polygon_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.DirectlyOver == Polygon)
+            {
+                sp.Cursor = Cursors.ScrollAll;
+            }
+
+            if (sp.DragInProgress)
+            {
+                var pos = e.MouseDevice.GetPosition(sp.Canvas);
+
+
+                // See how far the first point will move.
+                int new_x1 = (int)(pos.X + OffsetX);
+                int new_y1 = (int)(pos.Y + OffsetY);
+
+                int dx = (int)(new_x1 - Polygon.Points[0].X);
+                int dy = (int)(new_y1 - Polygon.Points[0].Y);
+
+                if (dx == 0 && dy == 0) return;
+
+                // Move the polygon.
+                for (int i = 0; i < Polygon.Points.Count; i++)
+                {
+                    Polygon.Points[i] = new Point(Polygon.Points[i].X + dx, Polygon.Points[i].Y + dy);
+
+                    var centerX = Canvas.GetLeft(PolygonPoints[i]);
+                    var centerY = Canvas.GetTop(PolygonPoints[i]);
+
+                    PolygonPoints[i].SetValue(Canvas.TopProperty, centerY + dy);
+                    PolygonPoints[i].SetValue(Canvas.LeftProperty, centerX + dx);
+
+                }
+
+                // Redraw.
+                //Canvas.Invalidate();
+            }
+
+        }
+
+        private void Polygon_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            sp.DragInProgress = false;
+            Mouse.Capture(null);
+        }
+
+        public void Draw(Point location, Point start)
+        {
+            //if (Polygon != null)
+            //{
+            //    double minX = Math.Min(location.X, start.X);
+            //    double minY = Math.Min(location.Y, start.Y);
+            //    double maxX = Math.Max(location.X, start.X);
+            //    double maxY = Math.Max(location.Y, start.Y);
+
+            //    Canvas.SetTop(Polygon, minY);
+            //    Canvas.SetLeft(Polygon, minX);
+
+
+            //    double height = maxY - minY;
+            //    double width = maxX - minX;
+
+            //    Polygon.Height = Math.Abs(height);
+            //    Polygon.Width = Math.Abs(width);
+            //}
+
+            sp.Canvas.Children.Add(Polygon);
         }
 
         public void modifyCircle(object sender, RoutedEventArgs e)
