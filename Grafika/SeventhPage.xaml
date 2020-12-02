@@ -1,0 +1,33 @@
+﻿<Page x:Class="Grafika.SeventhPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Grafika"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1400"
+      Title="SeventhPage">
+
+    <DockPanel>
+        <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
+            <Button Name="LoadImage" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80" Click="LoadImage_Click"/>
+            <Button Name="SaveImage" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80" Click="SaveImage_Click"/>
+            <Button Name="Reset" BorderBrush="#FF969696" Content="Reset" Height="50" Width="80" Click="Reset_Click"/>
+        </ToolBar>
+
+        <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
+            <StackPanel Name="inputs">
+                <Button Name="DilatationButton" Click="DilatationButton_Click">Dilatation</Button>
+                <Button Name="ErosionButton" Click="ErosionButton_Click">Erosion</Button>
+                <Button Name="OpenButton" Click="OpenButton_Click">Open</Button>
+                <Button Name="CloseButton" Click="CloseButton_Click">Close</Button>
+            </StackPanel>
+        </Border>
+
+        <Border Width="1000" Height="650" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="1">
+            <Image Name="Image" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
+        </Border>
+
+
+    </DockPanel>
+</Page>

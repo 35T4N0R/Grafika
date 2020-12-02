@@ -84,6 +84,9 @@
       <DependentUpon>SecondPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SerializeModels\JsonPolygon.cs" />
+    <Compile Include="SeventhPage.xaml.cs">
+      <DependentUpon>SeventhPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shapes\myCircle.cs" />
     <Compile Include="Shapes\myLine.cs" />
     <Compile Include="Shapes\myPen.cs" />
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SecondPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SeventhPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
