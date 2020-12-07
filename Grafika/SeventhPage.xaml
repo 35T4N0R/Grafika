@@ -11,16 +11,21 @@
     <DockPanel>
         <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
             <Button Name="LoadImage" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80" Click="LoadImage_Click"/>
-            <Button Name="SaveImage" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80" Click="SaveImage_Click"/>
             <Button Name="Reset" BorderBrush="#FF969696" Content="Reset" Height="50" Width="80" Click="Reset_Click"/>
         </ToolBar>
 
         <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">
             <StackPanel Name="inputs">
-                <Button Name="DilatationButton" Click="DilatationButton_Click">Dilatation</Button>
-                <Button Name="ErosionButton" Click="ErosionButton_Click">Erosion</Button>
-                <Button Name="OpenButton" Click="OpenButton_Click">Open</Button>
-                <Button Name="CloseButton" Click="CloseButton_Click">Close</Button>
+                <Button Name="DilatationButton" Click="DilatationButton_Click" Width="100" Margin="0 10 0 0">Dilatation</Button>
+                <Button Name="ErosionButton" Click="ErosionButton_Click" Width="100" Margin="0 10 0 0">Erosion</Button>
+                <Button Name="OpenButton" Click="OpenButton_Click" Width="100" Margin="0 10 0 0">Open</Button>
+                <Button Name="CloseButton" Click="CloseButton_Click" Width="100" Margin="0 10 0 0">Close</Button>
+                <Button Name="HitOrMiss1Button" Click="HitOrMiss1Button_Click" Width="100" Margin="0 10 0 0">Pocienienie</Button>
+                <Button Name="HitOrMiss2Button" Click="HitOrMiss2Button_Click" Width="100" Margin="0 10 0 0">Pogrubienie</Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                    <TextBox Name="PercentInput" Width="100" Margin="0 0 10 0"></TextBox>
+                    <Button Name="ImgAnalizeButton" Click="ImgAnalizeButton_Click" Width="100">Analiza</Button>
+                </StackPanel>
             </StackPanel>
         </Border>
 
