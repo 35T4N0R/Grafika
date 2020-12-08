@@ -124,15 +124,15 @@ namespace Grafika
         public Bitmap Dilatation(Bitmap img)
         {
 
-            //var mask = new int[,] { { 0, 1, 0 },
-            //                        { 1, 1, 1 },
-            //                        { 0, 1, 0 } };
+            var mask = new int[,] { { 1, 1, 1 },
+                                    { 1, 1, 1 },
+                                    { 1, 1, 1 } };
 
-            var mask = new int[,] { { 0,0,1,0,0 }, 
-                                    { 0,1,1,1,0 }, 
-                                    { 1,1,1,1,1 },
-                                    { 0,1,1,1,0},
-                                    { 0,0,1,0,0} };
+            //var mask = new int[,] { { 0,0,1,0,0 }, 
+            //                        { 0,1,1,1,0 }, 
+            //                        { 1,1,1,1,1 },
+            //                        { 0,1,1,1,0},
+            //                        { 0,0,1,0,0} };
             
 
             int width = img.Width;
@@ -526,8 +526,9 @@ namespace Grafika
             var mask3 = A1;
             var mask4 = A2;
             Bitmap bitmap2 = null;
+            Bitmap bitmap4 = null;
 
-            var img = BitmapFromSource((BitmapSource)Image.Source);
+            var img = BitmapFromSource(thresh(BitmapFromSource((BitmapSource)Image.Source)));
 
             for (int z = 0; z < 4; z++)
             {
@@ -553,7 +554,7 @@ namespace Grafika
 
                 var bitmap3 = HitOrMiss(img, mask3, mask4);
 
-                bitmap2 = new Bitmap(img.Width, img.Height);
+                bitmap4 = new Bitmap(img.Width, img.Height);
 
                 for (int i = 0; i < img.Width; i++)
                 {
@@ -564,11 +565,11 @@ namespace Grafika
 
                         var value = (pixelO - pixelI) < 0 ? 0 : (pixelO - pixelI);
 
-                        bitmap2.SetPixel(i, j, System.Drawing.Color.FromArgb(value, value, value));
+                        bitmap4.SetPixel(i, j, System.Drawing.Color.FromArgb(value, value, value));
                     }
                 }
 
-                img = bitmap2;
+                img = bitmap4;
 
                 mask1 = rotateMatrix(3, mask1);
                 mask2 = rotateMatrix(3, mask2);
@@ -576,7 +577,7 @@ namespace Grafika
                 mask4 = rotateMatrix(3, mask4);
             }
 
-            Image.Source = ConvertBitmap(bitmap2);
+            Image.Source = ConvertBitmap(bitmap4);
 
         }
 
@@ -588,7 +589,7 @@ namespace Grafika
             var mask4 = C2;
             Bitmap bitmap2 = null;
 
-            var img = BitmapFromSource((BitmapSource)Image.Source);
+            var img = BitmapFromSource(thresh(BitmapFromSource((BitmapSource)Image.Source)));
 
             for (int z = 0; z < 4; z++)
             {
@@ -654,14 +655,14 @@ namespace Grafika
         {
             var img = BitmapFromSource((BitmapSource)Image.Source);
 
-            //var mask = new int[,] { { 0, 1, 0 },
-            //                        { 1, 1, 1 },
-            //                        { 0, 1, 0 } };
-            var mask = new int[,] { { 0,0,1,0,0 },
-                                    { 0,1,1,1,0 },
-                                    { 1,1,1,1,1 },
-                                    { 0,1,1,1,0 },
-                                    { 0,0,1,0,0 } };
+            var mask = new int[,] { { 1, 1, 1 },
+                                    { 1, 1, 1 },
+                                    { 1, 1, 1 } };
+            //var mask = new int[,] { { 0,0,1,0,0 },
+            //                        { 0,1,1,1,0 },
+            //                        { 1,1,1,1,1 },
+            //                        { 0,1,1,1,0 },
+            //                        { 0,0,1,0,0 } };
 
             Image.Source = ConvertBitmap(Erosion(img, mask));
         }
