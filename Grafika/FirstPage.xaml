@@ -10,6 +10,9 @@
 
     <DockPanel>
         <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
+            <Button Name="NextButton" BorderBrush="#FF969696" Height="50" Width="80" Click="NextButton_Click">
+                <Image Source="right.png" Height="25"/>
+            </Button>
             <Button Name="LoadCanvas" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80" Click="LoadCanvas_Click"/>
             <Button Name="SaveCanvas" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80" Click="SaveCanvas_Click"/>
             <RadioButton Name="PencilButton" BorderBrush="#FF969696" Content="Ołówek" Height="50" Width="80" GroupName="Shapes" Click="PencilButton_Click" IsChecked="true"/>
@@ -21,7 +24,6 @@
             <Border Margin="50 0 0 0" VerticalAlignment="Center">
                 <CheckBox Name="textOrMouse" IsChecked="True"  Content="Rysowanie myszką" Checked="textOrMouse_Checked" Unchecked="textOrMouse_Checked"></CheckBox>
             </Border>
-            <Button Name="NextPage" BorderBrush="#FF969696" Content="Dalej" Height="50" Width="80" Click="NextPage_Click" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </ToolBar>
 
         <Border Name="inputsBorder" VerticalAlignment="Center" HorizontalAlignment="Left" Height="650" Width="300" Margin="20 0 0 0" BorderThickness="1" BorderBrush="Black">

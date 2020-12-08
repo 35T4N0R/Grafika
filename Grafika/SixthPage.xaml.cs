@@ -18,6 +18,7 @@ namespace Grafika
     /// </summary>
     public partial class SixthPage : Page
     {
+        MainWindow mw = (MainWindow)Application.Current.MainWindow;
         public Cursor cursor = Cursors.Arrow;
         public List<Ellipse> points = new List<Ellipse>();
         private IDrawable _dr;
@@ -263,6 +264,16 @@ namespace Grafika
             {
                 File.WriteAllText(saveFileDialog.FileName, jsonString);
             }
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new FithfPage();
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new SeventhPage();
         }
     }
 

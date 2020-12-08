@@ -15,6 +15,7 @@ namespace Grafika
     /// </summary>
     public partial class SecondPage : Page
     {
+        MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
         public SecondPage()
         {
             InitializeComponent();
@@ -123,6 +124,16 @@ namespace Grafika
             {
                 bitmap.UnlockBits(bitmapData);
             }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new ThirdPage();
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new FirstPage();
         }
     }
 

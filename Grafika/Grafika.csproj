@@ -183,6 +183,11 @@
       <Name>HistSomething</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="right.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

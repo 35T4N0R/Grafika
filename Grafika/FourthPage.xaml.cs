@@ -16,6 +16,7 @@ namespace Grafika
     /// </summary>
     public partial class FourthPage : Page
     {
+        MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
         public FourthPage()
         {
             InitializeComponent();
@@ -1085,6 +1086,16 @@ namespace Grafika
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             Image.Source = originalImage;
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new FithfPage();
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new ThirdPage();
         }
     }
 }

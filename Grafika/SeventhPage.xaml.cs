@@ -17,6 +17,7 @@ namespace Grafika
     /// </summary>
     public partial class SeventhPage : Page
     {
+        MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
         private ImageSource originalImage;
         public const int kernelSize = 3;
 
@@ -765,5 +766,9 @@ namespace Grafika
 
         }
 
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new SixthPage();
+        }
     }
 }

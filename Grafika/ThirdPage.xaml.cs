@@ -11,7 +11,7 @@ namespace Grafika
     /// </summary>
     public partial class ThirdPage : Page
     {
-
+        MainWindow mw = (MainWindow)Application.Current.MainWindow;
         double red = 0.0;
         double green = 0.0;
         double blue = 0.0;
@@ -446,6 +446,16 @@ namespace Grafika
 
                 rot.Axis = new Vector3D(-y, 0 , -x);
             }
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new SecondPage();
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new FourthPage();
         }
     }
 }

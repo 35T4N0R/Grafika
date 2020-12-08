@@ -10,6 +10,12 @@
 
     <DockPanel>
         <ToolBar Name="Options" DockPanel.Dock="Top" Height="50" Panel.ZIndex="999">
+            <Button Name="PreviousButton" BorderBrush="#FF969696" Height="50" Width="80" Click="PreviousButton_Click">
+                <Image Source="left.png" Height="25"/>
+            </Button>
+            <Button Name="NextButton" BorderBrush="#FF969696" Height="50" Width="80" Click="NextButton_Click">
+                <Image Source="right.png" Height="25"/>
+            </Button>
             <!--<Button Name="LoadCanvas" BorderBrush="#FF969696" Content="Załaduj" Height="50" Width="80"/>-->
             <!--<Button Name="SaveCanvas" BorderBrush="#FF969696" Content="Zapisz" Height="50" Width="80"/>-->
 

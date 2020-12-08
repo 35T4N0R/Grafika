@@ -14,6 +14,7 @@ namespace Grafika
     /// </summary>
     public partial class FithfPage : Page
     {
+        MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
         public Cursor cursor = Cursors.Arrow;
         public List<Ellipse> points = new List<Ellipse>();
         List<Point> bezierPoints = new List<Point>();
@@ -248,6 +249,16 @@ namespace Grafika
                     }
                 }
             }
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new FourthPage();
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new SixthPage();
         }
     }
 

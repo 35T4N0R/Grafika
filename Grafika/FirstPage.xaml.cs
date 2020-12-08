@@ -594,5 +594,10 @@ namespace Grafika
         {
             mw.MainFrame.Content = new SecondPage();
         }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            mw.MainFrame.Content = new SecondPage();
+        }
     }
 }
