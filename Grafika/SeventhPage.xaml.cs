@@ -153,7 +153,7 @@ namespace Grafika
             var calcOffset = 0;
             var byteOffset = 0;
 
-
+            var Break = false;
             for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
@@ -173,7 +173,11 @@ namespace Grafika
                             if(mask[j + offset, i + offset] == 1)
                             {
                                 calcOffset = byteOffset + (i * 4) + (j * srcData.Stride);
-                                if (calcOffset < 0 || calcOffset >= srcData.Stride * srcData.Height) continue;
+                                if (calcOffset < 0 || calcOffset >= srcData.Stride * srcData.Height)
+                                {
+                                    Break = true;
+                                    break;
+                                }
 
                                 value_b = Math.Max(value_b, pixelBuffer[calcOffset]);
                                 value_g = Math.Max(value_g, pixelBuffer[calcOffset + 1]);
@@ -183,6 +187,11 @@ namespace Grafika
                             {
                                 continue;
                             }
+                        }
+                        if (Break)
+                        {
+                            Break = false;
+                            break;
                         }
                     }
 
@@ -224,7 +233,7 @@ namespace Grafika
             var calcOffset = 0;
             var byteOffset = 0;
 
-
+            var Break = false;
             for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
@@ -243,7 +252,11 @@ namespace Grafika
                             if (mask[j + offset, i + offset] == 1)
                             {
                                 calcOffset = byteOffset + (i * 4) + (j * srcData.Stride);
-                                if (calcOffset < 0 || calcOffset >= srcData.Stride * srcData.Height) continue;
+                                if (calcOffset < 0 || calcOffset >= srcData.Stride * srcData.Height)
+                                {
+                                    Break = true;
+                                    break;
+                                }
 
                                 value_b = Math.Min(value_b, pixelBuffer[calcOffset]);
                                 value_g = Math.Min(value_g, pixelBuffer[calcOffset + 1]);
@@ -253,6 +266,11 @@ namespace Grafika
                             {
                                 continue;
                             }
+                        }
+                        if (Break)
+                        {
+                            Break = false;
+                            break;
                         }
                     }
 
